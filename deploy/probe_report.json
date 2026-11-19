@@ -1,0 +1,112 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "probeAddress": "0x3C4912006E0ab8d2e61Cc487a50ce61C10F2AF0A",
+  "probeDeployTx": "0xcc13c3f11b2ff6b8dbd4d56ba609bbb9c485f95f141bb49eac194e5742f16a03",
+  "probeSourceSha256": "5c3c6c077c5474db81059159cca286ac2d45e1bb43ff58bfaaed493ffec8573a",
+  "probedAt": "2026-11-19T19:52:20.213Z",
+  "results": {
+    "rfc_2104": {
+      "txHash": "0xfe6f25358ea07177279401c936767d32bf64b85fc5cdb91f16cef6956322cf07",
+      "url": "https://www.rfc-editor.org/rfc/rfc2104.txt",
+      "note": "IETF RFC 2104 (HMAC, Feb 1997) — Positive prior-art source",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "label": "rfc_2104",
+        "length": 22297,
+        "preview": "      Network Working Group                                       H. Krawczyk Request for Comments: 2104                ",
+        "sample_digest": "0b888e7ebe521950d50747b158bfd9b29a4c4790ed1553ba2606d879c499a082",
+        "status": 200
+      },
+      "stderr": ""
+    },
+    "rfc_6962": {
+      "txHash": "0x46e61169f95ce6d5cebc720a81fa0d31edf48fe4dff749f4f728bfa6ffafb909",
+      "url": "https://www.rfc-editor.org/rfc/rfc6962.txt",
+      "note": "IETF RFC 6962 (Certificate Transparency, Jun 2013) — Post-dated chronology test",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "label": "rfc_6962",
+        "length": 55048,
+        "preview": "      Internet Engineering Task Force (IETF)                         B. Laurie Request for Comments: 6962               ",
+        "sample_digest": "1b4b97b74a11cfe4ee14854535ea166430c54fe78d87be8b7a04a4217dece276",
+        "status": 200
+      },
+      "stderr": ""
+    },
+    "wiki_merkle_2009": {
+      "txHash": "0xc63685f16db7dd864575e76b7088f71236d33ab60a28ee5887022848f547c09f",
+      "url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|content&format=json&revids=333954216",
+      "note": "Wikipedia permanent revision 333954216 (Merkle tree, 2009-12-25) — Partial disclosure test",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "label": "wiki_merkle_2009",
+        "length": 6571,
+        "preview": "{\"batchcomplete\":\"\",\"query\":{\"pages\":{\"2497388\":{\"pageid\":2497388,\"ns\":0,\"title\":\"Merkle tree\",\"revisions\":[{\"timestamp\"",
+        "sample_digest": "6d00ec4e337bf93e43dc11c08a0d50b540a64a95d6e0adcb63f07558423f4e45",
+        "status": 200
+      },
+      "stderr": ""
+    },
+    "archive_hashcash_2004": {
+      "txHash": "0x36b957786ab7f84a00e73c8c7a8f7bac8f478c4d8c1e5be777810c7cdf7f3aad",
+      "url": "https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/",
+      "note": "Archive.org raw id_ capture (Hashcash FAQ, 2004-03-26)",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "label": "archive_hashcash_2004",
+        "length": 44242,
+        "preview": " <html> <head> <title>Hashcash FAQ</title> </head> <body>  <table width=\"100%\" border=\"0\"> <tr valign=\"top\"> <td> <table",
+        "sample_digest": "62f9c956a687695b0e740aa592de712624380782ff6cd4d2484bb8a42c351269",
+        "status": 200
+      },
+      "stderr": ""
+    },
+    "archive_hashcash_cdx": {
+      "txHash": "0xf03a35cd833ceed725a21aa91f1148fed209072230ace412f3ca9e9a6dbd7fb5",
+      "url": "https://web.archive.org/cdx/search/cdx?url=http://www.hashcash.org/faq/&output=json&filter=timestamp:20040326113623",
+      "note": "Archive.org CDX capture existence proof",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "label": "archive_hashcash_cdx",
+        "length": 213,
+        "preview": "[[\"urlkey\",\"timestamp\",\"original\",\"mimetype\",\"statuscode\",\"digest\",\"length\"], [\"org,hashcash)/faq\",\"20040326113623\",\"htt",
+        "sample_digest": "9fe64865e123776312b46c76fc49cc0ad5c0f45d4f887a9b564b93b03106bb9c",
+        "status": 200
+      },
+      "stderr": ""
+    },
+    "github_injection": {
+      "txHash": "0x216e74345b4908585cf33dc543eb8a249b591848d00630490a9fbea2cb51fad4",
+      "url": "https://raw.githubusercontent.com/liu00222/Open-Prompt-Injection/fbed5cca347488f88363790ae3ae97c56116da6a/OpenPromptInjection/attackers/IgnoreAttacker.py",
+      "note": "Public third-party prompt injection repo pinned to 40-hex commit SHA",
+      "finalized": true,
+      "statusName": "FINALIZED",
+      "resultName": "MAJORITY_AGREE",
+      "executionResult": "SUCCESS",
+      "parsed": {
+        "label": "github_injection",
+        "length": 849,
+        "preview": "from .Attacker import Attacker  class IgnoreAttacker(Attacker):     def __init__(self, config, task):         super().__",
+        "sample_digest": "2d2ea0a04dc91b3fa8d23af9018ef64b017a3f0e6d073bd8e5c997e81d69d227",
+        "status": 200
+      },
+      "stderr": ""
+    }
+  }
+}
