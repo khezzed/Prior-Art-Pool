@@ -1,0 +1,27 @@
+{
+  "name": "prior-art-pool",
+  "version": "1.0.0",
+  "description": "PriorArtPool: Crowdfunded Defensive Patent Prior-Art Anticipation & Multi-Element Claim-Chart Protocol on GenLayer",
+  "type": "module",
+  "scripts": {
+    "probe:studionet": "tsx scripts/probe_studionet.ts",
+    "deploy:studionet": "tsx scripts/deploy_studionet.ts",
+    "demo:studionet": "tsx scripts/run_demo_studionet.ts",
+    "verify:proof": "tsx scripts/verify_proof.ts",
+    "test:direct": "pytest tests/direct -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khezzed/Prior-Art-Pool.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "genlayer-js": "^1.2.0",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

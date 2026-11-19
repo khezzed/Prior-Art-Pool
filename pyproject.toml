@@ -1,0 +1,9 @@
+[project]
+name = "prior-art-pool"
+version = "1.0.0"
+description = "PriorArtPool: Crowdfunded Defensive Patent Prior-Art Anticipation Protocol on GenLayer"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests/direct"]
