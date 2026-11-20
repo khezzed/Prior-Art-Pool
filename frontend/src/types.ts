@@ -74,6 +74,10 @@ export interface ProofStep {
   status: string;
   executionResult: string;
   returnValue: unknown;
+  statusTransitions?: string[];
+  appealed?: boolean;
+  appealWindowTimestamp?: number | null;
+  eoaBalanceDeltaWei?: string;
   expectedFailure?: boolean;
 }
 

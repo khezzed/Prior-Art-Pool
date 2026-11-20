@@ -25,6 +25,7 @@ export const AuditLedger: React.FC<AuditLedgerProps> = ({ steps, className }) =>
           s.method === 'withdraw_refund' ||
           s.method === 'claim_payout' ||
           s.method === 'claim_pro_rata_refund' ||
+          s.method === 'reclaim_superseded_bond' ||
           s.method === 'expire_challenge'
       );
     }
@@ -101,7 +102,7 @@ export const AuditLedger: React.FC<AuditLedgerProps> = ({ steps, className }) =>
                 <th className="py-2.5 pr-4 font-medium">Step</th>
                 <th className="py-2.5 pr-4 font-medium">Action &amp; description</th>
                 <th className="py-2.5 pr-4 font-medium">Method</th>
-                <th className="py-2.5 pr-4 font-medium">Finalized return</th>
+                <th className="py-2.5 pr-4 font-medium">Finality &amp; appeal window</th>
                 <th className="py-2.5 font-medium">Explorer links</th>
               </tr>
             </thead>
@@ -117,17 +118,27 @@ export const AuditLedger: React.FC<AuditLedgerProps> = ({ steps, className }) =>
                   <td className="py-3.5 pr-4 font-code text-ink-primary whitespace-nowrap">
                     {st.method}
                   </td>
-                  <td className="py-3.5 pr-4 max-w-xs">
-                    <span
-                      className={cn(
-                        'inline-block font-medium',
-                        st.expectedFailure ? 'text-warn-ink' : 'text-pass-ink'
-                      )}
-                    >
-                      {st.status} · {st.executionResult}
-                    </span>
+                  <td className="py-3.5 pr-4 max-w-xs space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span
+                        className={cn(
+                          'inline-block font-medium',
+                          st.expectedFailure ? 'text-warn-ink' : 'text-pass-ink'
+                        )}
+                      >
+                        {st.status} · {st.executionResult}
+                      </span>
+                      <span className="text-ink-muted tabular">
+                        {st.appealed ? 'Appealed' : 'Appeal window closed (0 appeals)'}
+                      </span>
+                    </div>
+                    {st.eoaBalanceDeltaWei && (
+                      <div className="text-pass-ink font-medium tabular">
+                        Verified EOA balance delta: +{st.eoaBalanceDeltaWei} wei
+                      </div>
+                    )}
                     {st.returnValue ? (
-                      <div className="font-code text-ink-muted mt-1 break-all">
+                      <div className="font-code text-ink-muted break-all">
                         {String(st.returnValue).replace(/^"|"$/g, '')}
                       </div>
                     ) : null}

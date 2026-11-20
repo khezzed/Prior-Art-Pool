@@ -1,7 +1,7 @@
 # Environments & Secrets
 .env
 .env.*
-deployments/state.json
+deployments/state*.json
 deployments/*keys*.json
 *.key
 

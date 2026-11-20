@@ -114,7 +114,9 @@ export async function inspectTxState(txHash: string): Promise<{
   const errorDetail = lr?.genvm_result?.stderr || '';
   const childTxHashes: string[] = Array.isArray(tx?.triggered_transactions) ? tx.triggered_transactions : [];
 
+  const isNativeType0Transfer = !lr && Number(tx?.value || 0) > 0;
   const isEoaTransferQuirk =
+    isNativeType0Transfer ||
     lr?.node_config?.address === 'contract_not_found_handler' ||
     tx?.last_leader === 'contract_not_found_handler';
 

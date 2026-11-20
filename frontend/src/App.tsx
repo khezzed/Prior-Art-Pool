@@ -11,7 +11,7 @@ import { WalletWorkbench } from './components/WalletWorkbench';
 import { TxMonitor } from './components/TxMonitor';
 
 const PROOF = proofData as unknown as ProofManifest;
-const STORAGE_KEY = 'prior_art_pool_tracked_txs_v1';
+const STORAGE_KEY = 'prior_art_pool_tracked_txs_v2';
 
 type ViewTab = 'dossiers' | 'ledger' | 'wallet';
 

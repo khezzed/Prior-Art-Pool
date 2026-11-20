@@ -7,5 +7,14 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'viem-vendor': ['viem'],
+          'genlayer-vendor': ['genlayer-js'],
+        },
+      },
+    },
   },
 });

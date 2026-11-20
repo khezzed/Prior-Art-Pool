@@ -1,5 +1,6 @@
 {
   "project": "PriorArtPool",
+  "version": "2.0.0-hardened",
   "network": {
     "name": "GenLayer StudioNet",
     "chainId": 61999,
@@ -7,10 +8,10 @@
     "explorerBaseUrl": "https://explorer-studio.genlayer.com",
     "runner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6"
   },
-  "sourceCommit": "89375ccf04f5c01b5a5b9392ec62a3c2171acc3b",
+  "sourceCommit": "bed331746528bf4f1b1741630ec7703a77755050",
   "liveFrontendUrl": "https://prior-art-pool.vercel.app",
   "repositoryUrl": "https://github.com/khezzed/Prior-Art-Pool",
-  "generatedAt": "2026-11-19T22:07:58.607Z",
+  "generatedAt": "2026-11-20T08:14:57.988Z",
   "contracts": {
     "evidenceProbe": {
       "address": "0x3C4912006E0ab8d2e61Cc487a50ce61C10F2AF0A",
@@ -20,19 +21,19 @@
       "sourceSha256": "5c3c6c077c5474db81059159cca286ac2d45e1bb43ff58bfaaed493ffec8573a"
     },
     "priorArtPool": {
-      "address": "0x8d448f8e7Acca6459bE3cf4B80ccc17BcA4957FE",
-      "deployTx": "0xc035dd79ed8c1ca55e15d3d79798818346fe54db748805c20c121b7b7c48f19b",
-      "wireTx": "0xd6cc463550c3d5b2ecf58d622fae4bb3e25d625ffe99576ffc94035dccad5ae4",
+      "address": "0x7adb74f3A7cb166299E354C894cd2699a154ce2e",
+      "deployTx": "0x9c14dea6a6c344512a93e45790aa03d4a8037ed26a0f3392f885a331950a60da",
+      "wireTx": "0x7f88d7c624036961cdb6fb290d9392484e4f2820aeb65bed1e61f18ba5e009ea",
       "sourcePath": "contracts/prior_art_pool.py",
-      "gitBlobSha1": "e1bab9a8c554870260b5f289572841e0aab151a9",
-      "sourceSha256": "060219adbec23b59eba6bdf5496099d4eb602fe27d8cf33ec4488fd0d3662b1f"
+      "gitBlobSha1": "74336b4ecab64187514fd1347b97fb6bb319f280",
+      "sourceSha256": "7df1c26867129f94936c6c91fbbb47719a7960b8c0e3f12de4482f8b40b80838"
     },
     "priorArtJudge": {
-      "address": "0x2Ed9A19063E082b6c829b370e0D3374be37f40C3",
-      "deployTx": "0x5c5013243b2b7c1061f1d9312c505de5b46576655c5f81574b37623be12bed5f",
+      "address": "0xFd30Bc73881C7F10e675408DBc2B14Fb07393E15",
+      "deployTx": "0x824ed7edb602cddccf0c0cb476d51fc8d5ac3e78e7d68f772ddf5673ad8ac837",
       "sourcePath": "contracts/prior_art_judge.py",
-      "gitBlobSha1": "0b525407fddddab50aa1a450f6c2c8a91b856ae3",
-      "sourceSha256": "89edc459db5a9f73d8b6ac4a6eb9a419f7e3ab0932d7f640a58926e27faad9d3"
+      "gitBlobSha1": "f0b97b45a4b739d4e6af2eeb5d8852b9cfb479f4",
+      "sourceSha256": "a535f865712c8f8fc21355e9d5281ebea598ace563ee49ec4854f58fb1502200"
     }
   },
   "actors": {
@@ -147,37 +148,38 @@
   },
   "poolContractBalanceWei": "120",
   "accountingSummary": {
-    "total_pool_locked": 100,
-    "total_bonds_held": 20,
+    "total_pool_locked": 120,
+    "total_bonds_held": 0,
     "total_claimable": 0,
     "total_refundable": 0,
-    "total_inbound": 481,
-    "total_outbound": 361,
+    "total_inbound": 501,
+    "total_outbound": 381,
     "net_liabilities": 120,
     "net_flow": 120,
     "invariant_holds": true
   },
   "protocolConfig": {
     "owner": "0x8a7c91be15528da19f327c44b3e131907ada1ce6",
-    "judge_address": "0x2Ed9A19063E082b6c829b370e0D3374be37f40C3",
+    "judge_address": "0xFd30Bc73881C7F10e675408DBc2B14Fb07393E15",
     "vetting_timeout_seconds": 900,
+    "element_timeout_seconds": 600,
     "challenge_count": 4,
-    "submission_count": 5
+    "submission_count": 6
   },
   "challenges": [
     {
       "id": 1,
       "creator": "0x8a7c91be15528da19f327c44b3e131907ada1ce6",
-      "patent_ref": "US-VAGUE-2020-001",
+      "patent_ref": "DRAFT-VAGUE-REJECT",
       "priority_date_iso": "2020-01-01",
       "elements": [
         "Provides a revolutionary, intuitive, best-in-class user experience for web authentication.",
         "Delivers superior seamless elegance and good overall quality compared to legacy software."
       ],
-      "rules_digest": "e460fb8b8c57ae09b9d3ae7a60daf32abee9be4829fb015c9a497e401f5abc43",
+      "rules_digest": "c471da572ab26274da7cf966f2f926fc6c27e1228715ac843a62dcd68ebd8206",
       "status": "REJECTED_VAGUE",
-      "created_at": 1795118818,
-      "vetting_deadline": 1795119718,
+      "created_at": 1795159812,
+      "vetting_deadline": 1795160712,
       "duration_seconds": 1800,
       "grace_period_seconds": 60,
       "opened_at": 0,
@@ -193,8 +195,8 @@
       "pro_rata_owed": {},
       "pro_rata_claimed": {},
       "vetting_result": {
-        "reason": "Elements contain subjective marketing terms ('revolutionary', 'intuitive', 'best-in-class', 'superior', 'seamless') lacking technical metrics.",
-        "rules_digest": "e460fb8b8c57ae09b9d3ae7a60daf32abee9be4829fb015c9a497e401f5abc43",
+        "reason": "Both elements rely on subjective, unquantified marketing terms (revolutionary, intuitive, best-in-class, superior, seamless, elegance) with no concrete technical mechanism.",
+        "rules_digest": "c471da572ab26274da7cf966f2f926fc6c27e1228715ac843a62dcd68ebd8206",
         "verdict": "REJECTED_VAGUE"
       },
       "winner_submission_id": 0,
@@ -203,21 +205,21 @@
     {
       "id": 2,
       "creator": "0x8a7c91be15528da19f327c44b3e131907ada1ce6",
-      "patent_ref": "US-HMAC-2002-042",
-      "priority_date_iso": "2002-01-01",
+      "patent_ref": "US 10,103,888 B2",
+      "priority_date_iso": "2015-11-22",
       "elements": [
-        "Combines a shared secret authentication key with two distinct fixed repeated padding byte strings via bitwise exclusive-OR (XOR) to construct inner and outer keyed blocks.",
+        "Defines two distinct fixed repeated padding byte constants (inner pad 0x36 and outer pad 0x5C) combined with a block-sized secret key via bitwise exclusive-OR (XOR).",
         "Computes a message authentication code using a nested two-pass cryptographic hash that hashes the message appended to the inner keyed block and then hashes that output appended to the outer keyed block."
       ],
-      "rules_digest": "9f7bb80000648ff5c9a1cf59466628daefb3acc277662504e2cf7a8d59f8a22e",
+      "rules_digest": "8ddc9418bf415ac92e0b99f635e41b323dd0c9dff4da633a89ad03a1059c9bb0",
       "status": "ANTICIPATED",
-      "created_at": 1795123317,
-      "vetting_deadline": 1795124217,
+      "created_at": 1795159996,
+      "vetting_deadline": 1795160896,
       "duration_seconds": 3600,
       "grace_period_seconds": 60,
-      "opened_at": 1795123393,
-      "expires_at": 1795126993,
-      "grace_deadline": 1795127053,
+      "opened_at": 1795160072,
+      "expires_at": 1795163672,
+      "grace_deadline": 1795163732,
       "min_bond_wei": 20,
       "pool_wei": 0,
       "total_contributed_wei": 100,
@@ -229,43 +231,43 @@
       "pro_rata_owed": {},
       "pro_rata_claimed": {},
       "vetting_result": {
-        "reason": "Elements specify concrete HMAC XOR padding and nested two-pass hash construction, verifiable against RFC 2104.",
-        "rules_digest": "9f7bb80000648ff5c9a1cf59466628daefb3acc277662504e2cf7a8d59f8a22e",
+        "reason": "Both claim elements specify concrete cryptographic operations and byte constants that are objectively verifiable against technical literature.",
+        "rules_digest": "8ddc9418bf415ac92e0b99f635e41b323dd0c9dff4da633a89ad03a1059c9bb0",
         "verdict": "ACCEPTED"
       },
-      "winner_submission_id": 1,
+      "winner_submission_id": 2,
       "winner": "0x37b8455b0ea329c2dc56f97038a9db8b944859db"
     },
     {
       "id": 3,
       "creator": "0x8a7c91be15528da19f327c44b3e131907ada1ce6",
-      "patent_ref": "US-HYBRID-2011-088",
-      "priority_date_iso": "2011-01-01",
+      "patent_ref": "US 10,728,041 B2",
+      "priority_date_iso": "2016-12-23",
       "elements": [
         "Constructs a tree of cryptographic hash digests over data blocks so peers in a peer-to-peer network can verify that received data blocks are undamaged and unaltered.",
         "Requires message senders to compute non-interactive partial hash-collisions using the SHA1 hash function as a computationally verifiable anti-spam token."
       ],
-      "rules_digest": "31bd4c82907b20936200d25102acb8545d7363749ef2567f736b18f5d5291233",
+      "rules_digest": "d8feeca359b6875952bb02d72d184ed8e03f2fd40e16f6ece276df89dc25a2ad",
       "status": "OPEN",
-      "created_at": 1795124315,
-      "vetting_deadline": 1795125215,
+      "created_at": 1795160775,
+      "vetting_deadline": 1795161675,
       "duration_seconds": 3600,
       "grace_period_seconds": 60,
-      "opened_at": 1795124391,
-      "expires_at": 1795127991,
-      "grace_deadline": 1795128051,
+      "opened_at": 1795160853,
+      "expires_at": 1795164453,
+      "grace_deadline": 1795164513,
       "min_bond_wei": 20,
-      "pool_wei": 100,
+      "pool_wei": 120,
       "total_contributed_wei": 60,
-      "forfeited_bonds_wei": 40,
+      "forfeited_bonds_wei": 60,
       "contributions": {
         "0x8a7c91be15528da19f327c44b3e131907ada1ce6": 60
       },
       "pro_rata_owed": {},
       "pro_rata_claimed": {},
       "vetting_result": {
-        "reason": "Both elements specify concrete, verifiable mechanisms: a Merkle hash tree for block verification in P2P, and SHA1 partial hash-collision (Hashcash) an",
-        "rules_digest": "31bd4c82907b20936200d25102acb8545d7363749ef2567f736b18f5d5291233",
+        "reason": "Both elements describe concrete mechanisms (Merkle-tree hashing for P2P verification; SHA-1 partial collisions for anti-spam) verifiable in technical literature.",
+        "rules_digest": "d8feeca359b6875952bb02d72d184ed8e03f2fd40e16f6ece276df89dc25a2ad",
         "verdict": "ACCEPTED"
       },
       "winner_submission_id": 0,
@@ -274,21 +276,21 @@
     {
       "id": 4,
       "creator": "0x8a7c91be15528da19f327c44b3e131907ada1ce6",
-      "patent_ref": "US-INJ-TIMEOUT-2027",
-      "priority_date_iso": "2027-01-01",
+      "patent_ref": "US-2025-1101-SEC",
+      "priority_date_iso": "2025-11-01",
       "elements": [
-        "Combines a shared secret authentication key with two distinct fixed repeated padding byte strings via bitwise exclusive-OR (XOR) to construct inner and outer keyed blocks.",
+        "Defines two distinct fixed repeated padding byte constants (inner pad 0x36 and outer pad 0x5C) combined with a block-sized secret key via bitwise exclusive-OR (XOR).",
         "Computes a message authentication code using a nested two-pass cryptographic hash that hashes the message appended to the inner keyed block and then hashes that output appended to the outer keyed block."
       ],
-      "rules_digest": "22962f0af15ac036389a1a0ae16fc593a5f041b28fafdd5aa7a17bc3091bb262",
+      "rules_digest": "567dade99772630cb6754844a37d6375e30f1315edd4a0f795bbc733dd24784f",
       "status": "EXPIRED",
-      "created_at": 1795125512,
-      "vetting_deadline": 1795126412,
+      "created_at": 1795161973,
+      "vetting_deadline": 1795162873,
       "duration_seconds": 240,
       "grace_period_seconds": 20,
-      "opened_at": 1795125588,
-      "expires_at": 1795125828,
-      "grace_deadline": 1795125848,
+      "opened_at": 1795162049,
+      "expires_at": 1795162289,
+      "grace_deadline": 1795162309,
       "min_bond_wei": 20,
       "pool_wei": 0,
       "total_contributed_wei": 100,
@@ -306,8 +308,8 @@
         "0xc1f33fd454d94def4f3263668b86a004ce128a5b": true
       },
       "vetting_result": {
-        "reason": "Both elements describe concrete, verifiable HMAC steps per RFC 2104.",
-        "rules_digest": "22962f0af15ac036389a1a0ae16fc593a5f041b28fafdd5aa7a17bc3091bb262",
+        "reason": "Both elements specify concrete, measurable cryptographic mechanisms—fixed padding constants XORed with a block-sized key and a nested two-pass hash MAC—objectively verifiable in technical literature.",
+        "rules_digest": "567dade99772630cb6754844a37d6375e30f1315edd4a0f795bbc733dd24784f",
         "verdict": "ACCEPTED"
       },
       "winner_submission_id": 0,
@@ -318,11 +320,51 @@
     {
       "id": 1,
       "challenge_id": 2,
+      "researcher": "0xb1813aac885a978c520521a790a4d32ddc540d00",
+      "reference_title": "Wikipedia: HMAC permanent revision 31406215 (2005-12-15)",
+      "reference_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|content&format=json&revids=31406215",
+      "submitted_at": 1795160268,
+      "submitted_date_iso": "2026-11-20",
+      "bond_wei": 0,
+      "status": "SUPERSEDED_REFUNDED",
+      "disqualified_reason": "",
+      "elements": [
+        {
+          "index": 0,
+          "status": "UNMAPPED",
+          "anchor_text": "",
+          "pending_deadline": 0,
+          "verdict": "",
+          "pub_date_iso": "",
+          "source_type": "",
+          "cdx_verified": false,
+          "slice_digest": "",
+          "verbatim_quote": "",
+          "reason": ""
+        },
+        {
+          "index": 1,
+          "status": "UNMAPPED",
+          "anchor_text": "",
+          "pending_deadline": 0,
+          "verdict": "",
+          "pub_date_iso": "",
+          "source_type": "",
+          "cdx_verified": false,
+          "slice_digest": "",
+          "verbatim_quote": "",
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "challenge_id": 2,
       "researcher": "0x37b8455b0ea329c2dc56f97038a9db8b944859db",
       "reference_title": "IETF RFC 2104: HMAC Keyed-Hashing for Message Authentication (Feb 1997)",
       "reference_url": "https://www.rfc-editor.org/rfc/rfc2104.txt",
-      "submitted_at": 1795123628,
-      "submitted_date_iso": "2026-11-19",
+      "submitted_at": 1795160313,
+      "submitted_date_iso": "2026-11-20",
       "bond_wei": 0,
       "status": "WON",
       "disqualified_reason": "",
@@ -330,102 +372,68 @@
         {
           "index": 0,
           "status": "DISCLOSED",
-          "anchor_text": "ipad = the byte 0x36",
+          "anchor_text": "We define two fixed and different strings ipad and opad",
+          "pending_deadline": 1795160957,
           "verdict": "DISCLOSED",
           "pub_date_iso": "1997-02-28",
           "source_type": "rfc",
           "cdx_verified": false,
-          "slice_digest": "ab80c77ebad8fdf32a7624055e730b3f5686e60f20c23ecc8b55aaf04c8f9d6a",
-          "verbatim_quote": "H(K XOR opad, H(K XOR ipad, text))",
-          "reason": "RFC 2104 defines ipad/opad as repeated 0x36/0x5C and computes HMAC as H(K XOR opad, H(K XOR ipad, text)), i.e., key XOR fixed padding blocks."
+          "slice_digest": "e11174c43d8460154eb3c00f1697d170f3889b3030ba368d8607dd8254163b33",
+          "verbatim_quote": "ipad = the byte 0x36 repeated B times\n                  opad = the byte 0x5C repeated B times.\n\n   To compute HMAC over the data `text' we perform\n\n                    H(K XOR opad, H(K XOR ipad, text))",
+          "reason": "The excerpt explicitly defines inner pad 0x36 and outer pad 0x5C repeated B times (block size) and combines them with key K using bitwise XOR."
         },
         {
           "index": 1,
           "status": "DISCLOSED",
           "anchor_text": "H(K XOR opad",
+          "pending_deadline": 1795161092,
           "verdict": "DISCLOSED",
           "pub_date_iso": "1997-02-28",
           "source_type": "rfc",
           "cdx_verified": false,
           "slice_digest": "b038992e0ee4357282bbd5631374b7fa8a9ed9a19fc087895daf70453842b8c4",
           "verbatim_quote": "To compute HMAC over the data `text' we perform\n\n                    H(K XOR opad, H(K XOR ipad, text))",
-          "reason": "The excerpt explicitly computes a nested hash using an inner and outer keyed block operation: H(K XOR opad, H(K XOR ipad, text))."
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "challenge_id": 3,
-      "researcher": "0x37b8455b0ea329c2dc56f97038a9db8b944859db",
-      "reference_title": "Wikipedia: Merkle tree permanent revision 333954216 (2009-12-25)",
-      "reference_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|content&format=json&revids=333954216",
-      "submitted_at": 1795124433,
-      "submitted_date_iso": "2026-11-19",
-      "bond_wei": 0,
-      "status": "DISQUALIFIED_NOT_DISCLOSED",
-      "disqualified_reason": "Describes Merkle trees for data integrity, not sender-computed non-interactive SHA1 partial collisions as anti-spam tokens.",
-      "elements": [
-        {
-          "index": 0,
-          "status": "DISCLOSED",
-          "anchor_text": "peer-to-peer network",
-          "verdict": "DISCLOSED",
-          "pub_date_iso": "2009-12-25",
-          "source_type": "wikipedia",
-          "cdx_verified": false,
-          "slice_digest": "597663a5132790fcc0049682bd95f3190b4df37ac2cb3a0da86aa26506be7197",
-          "verbatim_quote": "A hash tree is a [[Binary tree|tree]] of [[Hash function|hashes]] in which the leaves are hashes of data blocks in, for instance, a file or set of files.",
-          "reason": "Describes constructing hash trees with cryptographic hashes and using them to verify that blocks received from P2P peers are undamaged and unaltered."
-        },
-        {
-          "index": 1,
-          "status": "NOT_DISCLOSED",
-          "anchor_text": "Hash trees",
-          "verdict": "NOT_DISCLOSED",
-          "pub_date_iso": "2009-12-25",
-          "source_type": "wikipedia",
-          "cdx_verified": false,
-          "slice_digest": "3a19f3aa1fe8dde761297ca0442c4b57f26f1492cc1eca5c490c5808d880f96d",
-          "verbatim_quote": "",
-          "reason": "Describes Merkle trees for data integrity, not sender-computed non-interactive SHA1 partial collisions as anti-spam tokens."
+          "reason": "The excerpt explicitly describes computing HMAC using a nested hash function that processes the message with the inner key and then hashes that output with the outer key."
         }
       ]
     },
     {
       "id": 3,
       "challenge_id": 3,
-      "researcher": "0xb1813aac885a978c520521a790a4d32ddc540d00",
-      "reference_title": "Archive.org (2004-03-26 id_): Adam Back Hashcash FAQ",
-      "reference_url": "https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/",
-      "submitted_at": 1795125152,
-      "submitted_date_iso": "2026-11-19",
-      "bond_wei": 20,
-      "status": "ACTIVE",
-      "disqualified_reason": "",
+      "researcher": "0x37b8455b0ea329c2dc56f97038a9db8b944859db",
+      "reference_title": "Wikipedia: Merkle tree permanent revision 333954216 (2009-12-25)",
+      "reference_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|content&format=json&revids=333954216",
+      "submitted_at": 1795160899,
+      "submitted_date_iso": "2026-11-20",
+      "bond_wei": 0,
+      "status": "DISQUALIFIED_NOT_DISCLOSED",
+      "disqualified_reason": "The excerpt describes Merkle hash trees for data verification and says nothing about SHA1 partial hash-collisions as anti-spam tokens required of message senders.",
       "elements": [
         {
           "index": 0,
-          "status": "UNMAPPED",
-          "anchor_text": "",
-          "verdict": "",
-          "pub_date_iso": "",
-          "source_type": "",
+          "status": "DISCLOSED",
+          "anchor_text": "peer-to-peer network",
+          "pending_deadline": 1795161543,
+          "verdict": "DISCLOSED",
+          "pub_date_iso": "2009-12-25",
+          "source_type": "wikipedia",
           "cdx_verified": false,
-          "slice_digest": "",
-          "verbatim_quote": "",
-          "reason": ""
+          "slice_digest": "597663a5132790fcc0049682bd95f3190b4df37ac2cb3a0da86aa26506be7197",
+          "verbatim_quote": "A hash tree is a [[Binary tree|tree]] of [[Hash function|hashes]] in which the leaves are hashes of data blocks in, for instance, a file or set of files. Nodes further up in the tree are the hashes of their respective children.",
+          "reason": "The excerpt describes constructing hash trees using cryptographic hashes and explicitly identifies verification of undamaged, unaltered blocks received from peers as their main use."
         },
         {
           "index": 1,
-          "status": "DISCLOSED",
-          "anchor_text": "partial hash-collisions",
-          "verdict": "DISCLOSED",
-          "pub_date_iso": "2004-03-26",
-          "source_type": "archive",
-          "cdx_verified": true,
-          "slice_digest": "021cb4684911ce0da6d0096f6d62ddf017c0c7df78f95468e4906041f42c41f5",
-          "verbatim_quote": "With hashcash you the sender can choose the string to compute partial-hash collisions on, so no interaction is required.",
-          "reason": "Hashcash is described as sender-computed, non-interactive SHA1 partial hash-collision proof of work, easily verified and placed in email headers."
+          "status": "NOT_DISCLOSED",
+          "anchor_text": "Hash trees",
+          "pending_deadline": 1795161677,
+          "verdict": "NOT_DISCLOSED",
+          "pub_date_iso": "2009-12-25",
+          "source_type": "wikipedia",
+          "cdx_verified": false,
+          "slice_digest": "3a19f3aa1fe8dde761297ca0442c4b57f26f1492cc1eca5c490c5808d880f96d",
+          "verbatim_quote": "",
+          "reason": "The excerpt describes Merkle hash trees for data verification and says nothing about SHA1 partial hash-collisions as anti-spam tokens required of message senders."
         }
       ]
     },
@@ -433,30 +441,72 @@
       "id": 4,
       "challenge_id": 3,
       "researcher": "0xb1813aac885a978c520521a790a4d32ddc540d00",
-      "reference_title": "IETF RFC 6962: Certificate Transparency (June 2013 — Post-Dated)",
-      "reference_url": "https://www.rfc-editor.org/rfc/rfc6962.txt",
-      "submitted_at": 1795125346,
-      "submitted_date_iso": "2026-11-19",
+      "reference_title": "Archive.org (2004-03-26 id_): Adam Back Hashcash FAQ",
+      "reference_url": "https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/",
+      "submitted_at": 1795161201,
+      "submitted_date_iso": "2026-11-20",
+      "bond_wei": 0,
+      "status": "DISQUALIFIED_NOT_DISCLOSED",
+      "disqualified_reason": "Excerpt discusses hashcash and hash collisions, not a Merkle-style hash tree for P2P data verification.",
+      "elements": [
+        {
+          "index": 0,
+          "status": "NOT_DISCLOSED",
+          "anchor_text": "partial hash-collisions",
+          "pending_deadline": 1795162289,
+          "verdict": "NOT_DISCLOSED",
+          "pub_date_iso": "2004-03-26",
+          "source_type": "archive",
+          "cdx_verified": true,
+          "slice_digest": "021cb4684911ce0da6d0096f6d62ddf017c0c7df78f95468e4906041f42c41f5",
+          "verbatim_quote": "",
+          "reason": "Excerpt discusses hashcash and hash collisions, not a Merkle-style hash tree for P2P data verification."
+        },
+        {
+          "index": 1,
+          "status": "DISCLOSED",
+          "anchor_text": "partial hash-collisions",
+          "pending_deadline": 1795161846,
+          "verdict": "DISCLOSED",
+          "pub_date_iso": "2004-03-26",
+          "source_type": "archive",
+          "cdx_verified": true,
+          "slice_digest": "021cb4684911ce0da6d0096f6d62ddf017c0c7df78f95468e4906041f42c41f5",
+          "verbatim_quote": "With hashcash you the sender can choose the string to compute partial-hash collisions on, so no interaction is required.",
+          "reason": "The excerpt describes sender-computed, non-interactive partial hash-collisions for email, explicitly identifies SHA1, and states that verification is fast."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "challenge_id": 3,
+      "researcher": "0xb1813aac885a978c520521a790a4d32ddc540d00",
+      "reference_title": "IETF RFC 9162: Certificate Transparency v2.0 (Dec 2021 — Post-Dated)",
+      "reference_url": "https://www.rfc-editor.org/rfc/rfc9162.txt",
+      "submitted_at": 1795161814,
+      "submitted_date_iso": "2026-11-20",
       "bond_wei": 0,
       "status": "DISQUALIFIED_POST_DATED",
-      "disqualified_reason": "PUB_DATE_2013-06-30_NOT_PRIOR_TO_2011-01-01",
+      "disqualified_reason": "PUB_DATE_2021-12-31_NOT_PRIOR_TO_2016-12-23",
       "elements": [
         {
           "index": 0,
           "status": "POST_DATED",
           "anchor_text": "Certificate Transparency",
+          "pending_deadline": 1795162459,
           "verdict": "POST_DATED",
-          "pub_date_iso": "2013-06-30",
+          "pub_date_iso": "2021-12-31",
           "source_type": "rfc",
           "cdx_verified": false,
-          "slice_digest": "ad47f9cbe6b8d9d8b3046edc062acbc2655240383592523a3497a702ee055a20",
+          "slice_digest": "fdd1920b86980e91cc8fb6a42ad5da8aa513751975b263e6172917f6d8fbbf32",
           "verbatim_quote": "",
-          "reason": "PUB_DATE_2013-06-30_NOT_PRIOR_TO_2011-01-01"
+          "reason": "PUB_DATE_2021-12-31_NOT_PRIOR_TO_2016-12-23"
         },
         {
           "index": 1,
           "status": "UNMAPPED",
           "anchor_text": "",
+          "pending_deadline": 0,
           "verdict": "",
           "pub_date_iso": "",
           "source_type": "",
@@ -468,33 +518,35 @@
       ]
     },
     {
-      "id": 5,
+      "id": 6,
       "challenge_id": 4,
       "researcher": "0xb1813aac885a978c520521a790a4d32ddc540d00",
-      "reference_title": "Adversarial Prompt Injection: liu00222/Open-Prompt-Injection IgnoreAttacker.py",
-      "reference_url": "https://raw.githubusercontent.com/liu00222/Open-Prompt-Injection/fbed5cca347488f88363790ae3ae97c56116da6a/OpenPromptInjection/attackers/IgnoreAttacker.py",
-      "submitted_at": 1795125685,
-      "submitted_date_iso": "2026-11-19",
+      "reference_title": "Wikipedia: Prompt injection rev 1289403591 (2025-05-08 — Adversarial Injection Excerpt)",
+      "reference_url": "https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|content&format=json&revids=1289403591",
+      "submitted_at": 1795162142,
+      "submitted_date_iso": "2026-11-20",
       "bond_wei": 0,
       "status": "DISQUALIFIED_NOT_DISCLOSED",
-      "disqualified_reason": "The code concatenates prompt text and omits XOR of a shared secret key with two fixed padding strings to form inner and outer keyed blocks.",
+      "disqualified_reason": "Excerpt discusses prompt injection on AI models, completely unrelated to HMAC padding bytes or XOR.",
       "elements": [
         {
           "index": 0,
           "status": "NOT_DISCLOSED",
-          "anchor_text": "Ignore previous instructions",
+          "anchor_text": "Ignore the above directions",
+          "pending_deadline": 1795162787,
           "verdict": "NOT_DISCLOSED",
-          "pub_date_iso": "2026-11-19",
-          "source_type": "github",
+          "pub_date_iso": "2025-05-08",
+          "source_type": "wikipedia",
           "cdx_verified": false,
-          "slice_digest": "8750cf0408efed4a281dda7aeb2913da48fc5d3de1e85d754243f8e64c791630",
+          "slice_digest": "013b864da5946d6905b0ef4265f9681e91e4b097af8df2c2785d7b15019d63fd",
           "verbatim_quote": "",
-          "reason": "The code concatenates prompt text and omits XOR of a shared secret key with two fixed padding strings to form inner and outer keyed blocks."
+          "reason": "Excerpt discusses prompt injection on AI models, completely unrelated to HMAC padding bytes or XOR."
         },
         {
           "index": 1,
           "status": "UNMAPPED",
           "anchor_text": "",
+          "pending_deadline": 0,
           "verdict": "",
           "pub_date_iso": "",
           "source_type": "",
@@ -512,331 +564,536 @@
       "label": "Non-stranding payable guard: invalid priority date credits 1 wei to refundable_balances",
       "actor": "sponsorA",
       "method": "open_challenge",
-      "txHash": "0xe887703bc251dc4a169a00bbb0d2673d3e95b3bc0fe91e91d7a97ca036a02f27",
+      "txHash": "0xe9512421dc3369dff774f30c64bdfb2582849bba636dcee3bd5d7d2ec2f3e5d3",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
       "returnValue": "\"ERROR:INVALID_PRIORITY_DATE:CREDITED_1\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795159772,
       "expectedFailure": true
     },
     {
       "stepId": "C1_OPEN_VAGUE",
-      "label": "Open Challenge #1 with subjective/vague elements (100 wei) -> triggers RuleGate callback",
+      "label": "Open Challenge #1 (DRAFT-VAGUE-REJECT) with subjective elements (100 wei) -> RuleGate REJECTED_VAGUE",
       "actor": "sponsorA",
       "method": "open_challenge",
-      "txHash": "0x431bbe273b88382da233154515c36fcafe75f3d3954280769098101204b6b4ac",
+      "txHash": "0xc93ca0c10792902a416d3977ce02a0cf85181542f6f05a72ec5b4677509c52f8",
       "childTxHashes": [
-        "0xd01acf17ebfb3f5e4099223d54ed11be193710c81f81a89952be46fddfa7c471",
-        "0x9ad2f2ac50edfef3d6def8dbc3b64d179a81d4151c4932b441960dd664a9d8ad"
+        "0x37bbba17a88b04c69a4efcf49ac35fb866b4a676310faadea0b8b5cc326e86e3",
+        "0x7526fdd8e632becf272a42a9d191dbe3e4a75e5f2594d32e786a9f7dd95c13bc"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CHALLENGE_PENDING_VETTING:1:e460fb8b8c57ae09\""
+      "returnValue": "\"CHALLENGE_PENDING_VETTING:1:c471da572ab26274\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795159818
     },
     {
       "stepId": "C1_WITHDRAW_REFUND",
-      "label": "Sponsor A withdraws 101 wei refund (100 rejected RuleGate + 1 invalid payable guard)",
+      "label": "Sponsor A withdraws 101 wei refund via EthSend (real EOA balance +101 wei verified)",
       "actor": "sponsorA",
       "method": "withdraw_refund",
-      "txHash": "0xae9840ef19c0d8e383106e947d123f3c93cc1ec73ab0cee88faf0d21800a1257",
+      "txHash": "0x6512679e66869ec57b95663bf83a71b3dc6679c2df3c890d52b9d1fbb95fda4c",
       "childTxHashes": [
-        "0x6002cc98f329f54b4696151ffec9fe99c6b8a3f93f864a1ec42a37a3077ce1cf"
+        "0x2fb91a2d737e06ee5ef77ee1b6500b97e072f6441823d27ab1da9ce6c772c261"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"REFUND_WITHDRAWN:0x8a7c91be15528da19f327c44b3e131907ada1ce6:101\""
+      "returnValue": "\"REFUND_WITHDRAWN:0x8a7c91be15528da19f327c44b3e131907ada1ce6:101\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795159948,
+      "eoaBalanceDeltaWei": "101"
     },
     {
       "stepId": "C2_OPEN_HMAC",
-      "label": "Sponsor A opens Challenge #2 (US-HMAC-2002, priority 2002-01-01, 50 wei) -> RuleGate ACCEPTED",
+      "label": "Sponsor A opens Challenge #2 (US 10,103,888 B2, Dyadic HMAC priority 2015-11-22, 50 wei) -> RuleGate ACCEPTED",
       "actor": "sponsorA",
       "method": "open_challenge",
-      "txHash": "0x07f010b556a92a8741b526e688df7d239bb3aebcff80775cb0d06154ebe74641",
+      "txHash": "0x1f86b094dbae35aa65dc6bb24d7fcf95ed8291f113e4ad9e8de371bc13cf5382",
       "childTxHashes": [
-        "0x3ae66f182527433cd6af17a2d7e9f8464a114946825fd34686dfeb07e703e683",
-        "0x16362b3f7b24e6c29b3070b371d68ef5d2d2a961aea7521021112227b5520cfb"
+        "0x72a53b2d242405c5189862ef6d8e21bd903271cd860ad8528c4417457bc67ed3",
+        "0x23354aade19031de1247978b952fd6ab3b74e9d654d94601ae6f2575d30f7bfd"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CHALLENGE_PENDING_VETTING:2:9f7bb80000648ff5\""
+      "returnValue": "\"CHALLENGE_PENDING_VETTING:2:8ddc9418bf415ac9\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160000
     },
     {
       "stepId": "C2_CROWDFUND_SPONSOR_B",
       "label": "Sponsor B crowdfunds +50 wei into Challenge #2 (Total pool: 100 wei)",
       "actor": "sponsorB",
       "method": "contribute_bounty",
-      "txHash": "0xb3b78b4140ba80634de522db250a62ed153233c370305d7fca7eceaa35ff69a4",
+      "txHash": "0x1652a30ddd27e1c0e8fd2a3dec45f2a0c2029f3d0431425627ce3e738ea28b95",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CONTRIBUTED:2:50:POOL_100\""
+      "returnValue": "\"CONTRIBUTED:2:50:POOL_100\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160125
     },
     {
       "stepId": "C2_MUTABLE_URL_REJECT",
       "label": "Expected failure: Mutable GitHub /main/ URL rejected safely (20 wei credited to refundable)",
       "actor": "researcher2",
       "method": "submit_prior_art",
-      "txHash": "0xffc1e68024d7ee02d7265c93a13408196161abc6fa0498eecc63dc5605857e37",
+      "txHash": "0x9b44180ee936de6c50aaba8a8054ce0614d784063404e38c45bd0965990f5124",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
       "returnValue": "\"ERROR:MUTABLE_OR_UNSUPPORTED_URL:CREDITED_20\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160170,
       "expectedFailure": true
     },
     {
       "stepId": "C2_MUTABLE_URL_REFUND",
-      "label": "Researcher 2 withdraws 20 wei refund from blocked mutable URL submission",
+      "label": "Researcher 2 withdraws 20 wei refund via EthSend (real EOA balance +20 wei verified)",
       "actor": "researcher2",
       "method": "withdraw_refund",
-      "txHash": "0x5220d33a08440f86cc9fdbf104c6733e8a9a22f60cf8a24b34c406cf971e28cf",
+      "txHash": "0x7ac6a2169f52c06506a17ac195df22261d16954790a39d6398fdca0428f66e06",
       "childTxHashes": [
-        "0xc986d9e8fa964acb861e37f551ab96f6a7991551cf521914b543490266f34be9"
+        "0xfa03f1818e142522d07c4de37e37f353f6ee3c042e9da86fcb14d51e739d9085"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"REFUND_WITHDRAWN:0xb1813aac885a978c520521a790a4d32ddc540d00:20\""
+      "returnValue": "\"REFUND_WITHDRAWN:0xb1813aac885a978c520521a790a4d32ddc540d00:20\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160216,
+      "eoaBalanceDeltaWei": "20"
     },
     {
-      "stepId": "C2_SUBMIT_RFC2104",
-      "label": "Researcher 1 submits IETF RFC 2104 (Feb 1997) with 20 wei anti-spam bond",
-      "actor": "researcher1",
+      "stepId": "C2_RACE_SUBMIT_R2_WIKI",
+      "label": "Competing Researcher 2 enters race with Wikipedia HMAC permanent rev 31406215 (2005-12-15, 20 wei bond)",
+      "actor": "researcher2",
       "method": "submit_prior_art",
-      "txHash": "0x3bd2325c2e3141a42f51e4f91cb6abe6346be5713e29095fa98f8d7ecc87d191",
+      "txHash": "0xf18ded447a16d5e8e5ad28d98ff50fc3155238a27ef2b1c6696187c333bab48e",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRIOR_ART_SUBMITTED:1:CHALLENGE_2\""
+      "returnValue": "\"PRIOR_ART_SUBMITTED:1:CHALLENGE_2\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160272
     },
     {
-      "stepId": "C2_MAP_E0",
-      "label": "Map Element 0 (inner/outer XOR padding bytes) against RFC 2104 -> DISCLOSED",
+      "stepId": "C2_RACE_SUBMIT_R1_RFC2104",
+      "label": "Researcher 1 enters race concurrently with IETF RFC 2104 (Feb 1997, 20 wei bond)",
+      "actor": "researcher1",
+      "method": "submit_prior_art",
+      "txHash": "0x89c79c263fbb22fcced1f2d6d7c2db89afe0948ee303def021bce9b84ea75040",
+      "childTxHashes": [],
+      "status": "FINALIZED",
+      "executionResult": "SUCCESS",
+      "returnValue": "\"PRIOR_ART_SUBMITTED:2:CHALLENGE_2\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160316
+    },
+    {
+      "stepId": "C2_R1_MAP_E0",
+      "label": "Researcher 1 maps Element 0 (0x36/0x5C XOR padding bytes) on RFC 2104 -> DISCLOSED",
       "actor": "researcher1",
       "method": "map_claim_element",
-      "txHash": "0x796b01fa0109baa513c67b5daeaa6116ecec53f6744ac5b7dbfa13627d5f26fd",
+      "txHash": "0x8c9a86df316a9fe0293101c8217138f0d1b26a2add6a2c3b5d413a65810d3230",
       "childTxHashes": [
-        "0x6899eb09d32c9fae6c0d0faebeff840d90233396bace9ebe3656863d8bd4d930",
-        "0xc3e6779c0cb5693715826502511c0f1ea66d4e40d50586faa595e145a8ad2a61"
+        "0xc771040401ab4fa7036eb8452d18341f233b7cdc80fad5c7a96af771d80c7161",
+        "0x28bdff758e28ecd1539ecb34145146b654bbc91fa76427acc9929cf07c54d63c"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:1:E0\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:2:E0\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160363
     },
     {
-      "stepId": "C2_MAP_E1",
-      "label": "Map Element 1 (nested two-pass hash H(K XOR opad, H(K XOR ipad, text))) -> DISCLOSED + WIN",
+      "stepId": "C2_R1_MAP_E1",
+      "label": "Researcher 1 maps Element 1 (nested two-pass hash) on RFC 2104 -> DISCLOSED + FIRST-TO-FINALITY WIN",
       "actor": "researcher1",
       "method": "map_claim_element",
-      "txHash": "0x32054effb3a366b510e0fea04d927ab6c212d0ba5b5db064b9f1eca2922d2834",
+      "txHash": "0x6f47dacf7925f1a0bea12093a4f57de66dce18e1ad2b146fda856441e8211a2c",
       "childTxHashes": [
-        "0xafc5cb94fc3ad5e3641c2a251029b76c8524acf7a8e67f59348aac552fc23651",
-        "0xc52b213216d716d75ebe6d77efaa8ff1cd7056f441c6f379e4487a01f2265303"
+        "0x49472ee868487c3f9b6d8c4d726bcddac23995ba5fd330fc192ba1dffe15d527",
+        "0x0b5489151eefb87f6f67ea8af086e0870d59d05d5903667d427a8449936f8822"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:1:E1\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:2:E1\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160495
     },
     {
-      "stepId": "C2_CLAIM_WIN",
-      "label": "Researcher 1 claims 120 wei finalized payout (100 crowdfunded pool + 20 returned bond)",
+      "stepId": "C2_R1_CLAIM_WIN",
+      "label": "Winning Researcher 1 claims 120 wei payout via EthSend (real EOA balance +120 wei verified)",
       "actor": "researcher1",
       "method": "claim_payout",
-      "txHash": "0x8b5d89e9d21f6358f1a3d59e1db7accb98e5599804ff93fac31c612cbd385b1d",
+      "txHash": "0xaa8cd2a380029150f51709a7b95a09a2c20dcca25f8d6c7617693be37ef215ee",
       "childTxHashes": [
-        "0x117c84924eed1fc78bff71829df9f62b8f5d015fdf5fe3a69ab810291e887f0e"
+        "0xa2aeea13a3060b49a5c2db63438865bc07dbec013ea51dfcf9234ce320c1be9b"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PAYOUT_CLAIMED:0x37b8455b0ea329c2dc56f97038a9db8b944859db:120\""
+      "returnValue": "\"PAYOUT_CLAIMED:0x37b8455b0ea329c2dc56f97038a9db8b944859db:120\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160621,
+      "eoaBalanceDeltaWei": "120"
     },
     {
-      "stepId": "C3_OPEN_HYBRID",
-      "label": "Sponsor A opens Challenge #3 (US-HYBRID-2011, priority 2011-01-01, 60 wei) -> RuleGate ACCEPTED",
-      "actor": "sponsorA",
-      "method": "open_challenge",
-      "txHash": "0xc013c697210941f8cbf296bc5320b165a2264f6be739134f849178814c2fc8d1",
+      "stepId": "C2_R2_RECLAIM_BOND",
+      "label": "Honest losing racer (Researcher 2) calls reclaim_superseded_bond(1) after Challenge #2 settles",
+      "actor": "researcher2",
+      "method": "reclaim_superseded_bond",
+      "txHash": "0x07597b8316200e2912ab0769de9133fd6dbf4bf43ee5371b1d904b8ef3abede7",
+      "childTxHashes": [],
+      "status": "FINALIZED",
+      "executionResult": "SUCCESS",
+      "returnValue": "\"BOND_RECLAIMED:1:20\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160679
+    },
+    {
+      "stepId": "C2_R2_WITHDRAW_BOND",
+      "label": "Researcher 2 withdraws reclaimed 20 wei bond via EthSend (real EOA balance +20 wei verified)",
+      "actor": "researcher2",
+      "method": "withdraw_refund",
+      "txHash": "0x3290e942e6bd7d27a8f20636e23ca67ac9edf8de4bc08a117416a4fe969afcd5",
       "childTxHashes": [
-        "0x762644e034a10f90c13404e236957633ec0518a53a1cd4072247382d172a3aea",
-        "0xa9b67a1082c1a2d6ea06efd2efe46be923bca86e227453a3d4d3c44f70caa1f0"
+        "0x4d79319ba9d8058981d22bcc1d97f88623acf111b3c5cf2a93e2448db94b91fe"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CHALLENGE_PENDING_VETTING:3:31bd4c82907b2093\""
+      "returnValue": "\"REFUND_WITHDRAWN:0xb1813aac885a978c520521a790a4d32ddc540d00:20\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160724,
+      "eoaBalanceDeltaWei": "20"
+    },
+    {
+      "stepId": "C3_OPEN_AMAZON",
+      "label": "Sponsor A opens Challenge #3 (US 10,728,041 B2, Amazon Merkle PoW priority 2016-12-23, 60 wei) -> RuleGate ACCEPTED",
+      "actor": "sponsorA",
+      "method": "open_challenge",
+      "txHash": "0x9200187f8144cc25c0d2389927682febfbeb4d52c4986a2d77ab210282f1d880",
+      "childTxHashes": [
+        "0x859178cf7be2a856561da1bf0856b2268ff8e9497ed8ba02241a1e75a40b0e05",
+        "0x4d233061d669bf7eec39c50d3ba46a0e45e9648f0e0d4b4bf3b4e00054708f80"
+      ],
+      "status": "FINALIZED",
+      "executionResult": "SUCCESS",
+      "returnValue": "\"CHALLENGE_PENDING_VETTING:3:d8feeca359b68759\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160780
     },
     {
       "stepId": "C3_SUBMIT_WIKI",
-      "label": "Researcher 1 submits Wikipedia Merkle_tree permanent rev 333954216 (2009-12-25) with 20 wei bond",
+      "label": "Researcher 1 submits Wikipedia Merkle_tree permanent rev 333954216 (2009-12-25, 20 wei bond)",
       "actor": "researcher1",
       "method": "submit_prior_art",
-      "txHash": "0x3c0ebf68f3adfbf0aba3a22b4715ebd78b70ba6ca8c385c819ab765adcb90a04",
+      "txHash": "0xd8c1be8b7246420f6b5da3d0dde68219f86b19707e22ffb1143eb023c52ba97a",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRIOR_ART_SUBMITTED:2:CHALLENGE_3\""
+      "returnValue": "\"PRIOR_ART_SUBMITTED:3:CHALLENGE_3\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160903
     },
     {
       "stepId": "C3_WIKI_E0",
       "label": "Map Element 0 (Merkle hash trees) on Wikipedia rev 333954216 -> DISCLOSED",
       "actor": "researcher1",
       "method": "map_claim_element",
-      "txHash": "0xa752972dc87e58e5ad2328bde05673bb9c0390fe9299ed3db7bb8a64dfa6709e",
+      "txHash": "0xab7d727a2c234a4141eee66f7c21a1cded22b5ceed58a83e0bfee51dcbbf3b3d",
       "childTxHashes": [
-        "0x2b9d98e5f80fc3a0f24fb78695cc0801c40d5d2fb85d9607ad6e6f3c757801b8",
-        "0x76cee93c8753acf23fac7b6d4af595eff2577660d5435e7fd133de54f7e698bd"
+        "0x65c38dafbbfbdefea6331d009f1d5d2ac2f63cae48331b5bd6a43e071c2d0834",
+        "0x80e6b5923fde9e17c7f855c32f09b45884f8eb6ab07a432b6e3f88ee71553940"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:2:E0\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:3:E0\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795160948
     },
     {
       "stepId": "C3_WIKI_E1",
-      "label": "Map Element 1 (SHA1 partial hash-collision stamp) on Wikipedia rev 333954216 -> NOT_DISCLOSED (All-Elements Rule disqualifies!)",
+      "label": "Map Element 1 (SHA1 partial hash-collision stamp) on Wikipedia rev 333954216 -> NOT_DISCLOSED (disqualified)",
       "actor": "researcher1",
       "method": "map_claim_element",
-      "txHash": "0xff6478b6388d068f939003b648cd2377ec5ce999907da11c7b02a49551e943ac",
+      "txHash": "0xf3b218d335b24c067eb55a3c753ad8053a81719a2337e517babb3160d3fc21d1",
       "childTxHashes": [
-        "0x1ab957f66969b4ec74a86cb45323c0588a355e029bad4103b38d7bfebd7bb63f",
-        "0x8a22a002adc4df8870d266db8d93d567aeee716c01689960a23e7b1f7f5ea0c3"
+        "0x50e11a74bb28e133360023f10ee0f2e4a854898c1dd995dd8f9529ac0b889874",
+        "0x1b9cab4af526c2943a9a01c5282c43e79f0a1f85a6b8f18d39000b0f0a61f723"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:2:E1\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:3:E1\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161080
     },
     {
       "stepId": "C3_SUBMIT_ARCHIVE",
-      "label": "Researcher 2 submits Archive.org raw id_ capture (Hashcash FAQ, 2004-03-26) with 20 wei bond",
+      "label": "Researcher 2 submits Archive.org raw id_ capture (Hashcash FAQ, 2004-03-26, 20 wei bond)",
       "actor": "researcher2",
       "method": "submit_prior_art",
-      "txHash": "0xc0db0ca122272a9336d93303ad399e4c4b8c9cf496b35b927b93a06c65df5f79",
+      "txHash": "0xcf787a4a0db9ad25be8f0335e4d2f41bccaf61070a887404feed069ded96de4b",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRIOR_ART_SUBMITTED:3:CHALLENGE_3\""
+      "returnValue": "\"PRIOR_ART_SUBMITTED:4:CHALLENGE_3\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161204
     },
     {
       "stepId": "C3_ARCHIVE_E1",
       "label": "Map Element 1 (SHA1 partial hash-collisions) on Archive.org id_ + CDX -> DISCLOSED (cdx_verified=true)",
       "actor": "researcher2",
       "method": "map_claim_element",
-      "txHash": "0x9e12630977dc47e582deb0b6322f5b7c7184449961aa700b114a003478b840f9",
+      "txHash": "0xf7416bbb5c3b5b82251018febf3920cadfa060270b0ae6f9b4a008811495f6c0",
       "childTxHashes": [
-        "0x48b05b0ec4cb3132db9e67ca19af453d589fdb5a1bca688adbe03350163a2c68",
-        "0x5d2047e5842a4f86c01fc361219eff8bb780725413277f9244af62331755627a"
+        "0x44974489eb0952d859a1283ac3a9b4f4d93824524b496092753dcd7a34440066",
+        "0x4983b457433439c8fcbfed05d3569a7427a2cd5226e1b8113761ae13b453e302"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:3:E1\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:4:E1\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161250
     },
     {
-      "stepId": "C4_SUBMIT_RFC6962",
-      "label": "Researcher 2 submits post-dated IETF RFC 6962 (June 2013 vs priority 2011-01-01) with 20 wei bond",
+      "stepId": "C3_ARCHIVE_E0",
+      "label": "Map Element 0 (P2P Merkle hash trees) on Hashcash FAQ -> NOT_DISCLOSED (completes All-Elements symmetry!)",
+      "actor": "researcher2",
+      "method": "map_claim_element",
+      "txHash": "0x8fe4ff6e8b72e9b88b059c11c3f119ea5249febbdf5bc98319b73ccb76d0e9d0",
+      "childTxHashes": [
+        "0xb48151fdb2fc37403d7b2a0ca0bb116cc6a47f1da05b038b2fd8bf3647d1dbd3",
+        "0x7d5979e9a87496ac4b54ea9af22e59ea5aef684920817c1a09a7b841c19e1555"
+      ],
+      "status": "FINALIZED",
+      "executionResult": "SUCCESS",
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:4:E0\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161693
+    },
+    {
+      "stepId": "C4_SUBMIT_RFC9162",
+      "label": "Researcher 2 submits post-dated IETF RFC 9162 (Dec 2021 vs priority 2016-12-23, 20 wei bond)",
       "actor": "researcher2",
       "method": "submit_prior_art",
-      "txHash": "0xf1d658aae876c56f3a9a6acde42cc2be11030c56c04bbba42fe77338563ab747",
+      "txHash": "0x200872946b379ad9f02b58df6c16072216c11f887a702c573910312387ac3e52",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRIOR_ART_SUBMITTED:4:CHALLENGE_3\""
+      "returnValue": "\"PRIOR_ART_SUBMITTED:5:CHALLENGE_3\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161818
     },
     {
       "stepId": "C4_MAP_POSTDATED",
-      "label": "Map Element 0 on RFC 6962 -> Deterministic POST_DATED rejection in plain Python + bond forfeited",
+      "label": "Map Element 0 on RFC 9162 -> Deterministic POST_DATED rejection in plain Python + 20 wei bond forfeited",
       "actor": "researcher2",
       "method": "map_claim_element",
-      "txHash": "0xe35075dfc19596a363d3ad2f942219e0d51fdf050bdd43ae3ae2043681a54b31",
+      "txHash": "0x83eee253f605c7ad2c37e7bb2c4c23b730d2fa72843a39c746892dd40dc4f34d",
       "childTxHashes": [
-        "0x0fb42603e9c72cd5c8a910f98cd2116059ae0c21c66b5a5546de48f9c7bb1d0e",
-        "0x2db9745f75146e4dcbcc5597294bdbedfb314a1d47e5687282be03caf2dca966"
+        "0x0e8850ca026bc54c8eb711dbaf6185cd14cf12e69e09d9f8910dccd901a1807b",
+        "0x02e26cd2d2f0751a8aaa9fa30f65621961ba56142f0c9d40a132084c3e8d7c99"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:4:E0\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:5:E0\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161863
     },
     {
       "stepId": "C5_OPEN_EXPIRING",
-      "label": "Sponsor A opens Challenge #4 (priority 2027-01-01, 240s duration + 20s grace, 60 wei) -> RuleGate ACCEPTED",
+      "label": "Sponsor A opens Challenge #4 (US-2025-1101-SEC, priority 2025-11-01, 240s+20s, 60 wei) -> RuleGate ACCEPTED",
       "actor": "sponsorA",
       "method": "open_challenge",
-      "txHash": "0x35c6782c2af464bcb576ebc32fe02626320f1c02eeb8209cbe0eabe4bd88c8a0",
+      "txHash": "0x2859b9b96550b849dfe130a5984baf9b086042ca4e18182c530a57a717fc4353",
       "childTxHashes": [
-        "0x962fa1ff62c120e61b13440d2805884834d9575d826f1e4364c180aa28fe46f6",
-        "0x404f26143cf2d8c5c7596b00dc61b83b4c5e65174287072890013f4a994b7b43"
+        "0x05a1a22c4c57e0376887694a100ab0782e9d28bcec7d339881ee91f4ac06c5d4",
+        "0x1b63ae5b34a4493ab8070c67ba33049fad36b69e593df9dd5ae334f7c9aa5d25"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CHALLENGE_PENDING_VETTING:4:22962f0af15ac036\""
+      "returnValue": "\"CHALLENGE_PENDING_VETTING:4:567dade99772630c\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795161979
     },
     {
       "stepId": "C5_CROWDFUND_SPONSOR_B",
       "label": "Sponsor B crowdfunds +40 wei into Challenge #4 (60/40 split, 100 wei pool)",
       "actor": "sponsorB",
       "method": "contribute_bounty",
-      "txHash": "0x511061413e5a5295605d63b490fc6beeaf73122a1c1aec6cbb01a21b92d90e36",
+      "txHash": "0x9adb02aed84bf6c7cc459aacbee3310ef593060a9d5be9a7cb01d4c1e4092844",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CONTRIBUTED:4:40:POOL_100\""
+      "returnValue": "\"CONTRIBUTED:4:40:POOL_100\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795162101
     },
     {
       "stepId": "C5_SUBMIT_INJECTION",
-      "label": "Attacker (Researcher 2) submits pinned Open-Prompt-Injection IgnoreAttacker.py with 20 wei bond",
+      "label": "Attacker submits Wikipedia Prompt_injection rev 1289403591 (2025-05-08, literal \"Ignore the above directions...\")",
       "actor": "researcher2",
       "method": "submit_prior_art",
-      "txHash": "0x4de8e1f88c2fdd4bea8291124fff35cab33186fbbefaddd170333c21d363b52a",
+      "txHash": "0xba04ec5361a4e92f76b2442b47acdf5183542f7e8708cb72482dc4c64987e0af",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRIOR_ART_SUBMITTED:5:CHALLENGE_4\""
+      "returnValue": "\"PRIOR_ART_SUBMITTED:6:CHALLENGE_4\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795162147
     },
     {
       "stepId": "C5_MAP_INJECTION",
-      "label": "Map Element 0 against IgnoreAttacker.py -> Prompt injection neutralized (NOT_DISCLOSED), 20 wei bond forfeited to pool",
+      "label": "Map Element 0 anchored at \"Ignore the above directions\" -> Injection defeated (NOT_DISCLOSED), 20 wei bond forfeited",
       "actor": "researcher2",
       "method": "map_claim_element",
-      "txHash": "0x556ac4adcf44d7556e1e24c0fba58ccdbe4219e78b0b7ff8328d6eba3eaeeaca",
+      "txHash": "0x83f3415108719e80dc4007e8c7a439e7a324e14c98c6f32f07412b4d1eb8ec11",
       "childTxHashes": [
-        "0xd62e04ba22614bae6a53633dea603b1dbbfbc013d8c612449242302632384ed5",
-        "0x249f5880117bdf7260d47440d79251eccad29a94a488c244b217f13a0cffff00"
+        "0x7f909f7dbb941e07eb60276e9dda707774b4cd926ef8a66b1b2f1dba7c3208c0",
+        "0x2e83c9ef081971395811dec0c5694692f9e0b7480b5c124ce0c9ebdb748943d5"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:5:E0\""
+      "returnValue": "\"ELEMENT_MAPPING_DISPATCHED:6:E0\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795162191
     },
     {
       "stepId": "C6_EXPIRE_CHALLENGE",
-      "label": "Deterministic timeout fallback: expire_challenge(4) distributes 120 wei pro-rata (72 Sponsor A / 48 Sponsor B)",
+      "label": "Deterministic timeout fallback: expire_challenge(4) allocates 120 wei pro-rata (72 Sponsor A / 48 Sponsor B)",
       "actor": "sponsorA",
       "method": "expire_challenge",
-      "txHash": "0x94798e32b44944b450e3dc904cbc1021f9a32b8fb653a46eb0dfb4fd40d89c9a",
+      "txHash": "0x0b5a94c2bc827e806167cfe808e442f7ccc3f6956e125f9b11f67c160b8bd9de",
       "childTxHashes": [],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"CHALLENGE_EXPIRED:4:DISTRIBUTABLE_120\""
+      "returnValue": "\"CHALLENGE_EXPIRED:4:DISTRIBUTABLE_120\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795162330
     },
     {
       "stepId": "C6_REFUND_SPONSOR_A",
-      "label": "Sponsor A claims 60% pro-rata refund (72 wei including forfeited attacker bond share)",
+      "label": "Sponsor A claims 60% pro-rata refund via EthSend (real EOA balance +72 wei verified)",
       "actor": "sponsorA",
       "method": "claim_pro_rata_refund",
-      "txHash": "0xdfee1aeaf83c42ee3e35492eba0de158820a4baa6658d8023c6bcfbcc900fb9f",
+      "txHash": "0xb04a0ca54f9d8887438f62dd7d9a2b5c646c7c8c0980934543474e087e87fd1a",
       "childTxHashes": [
-        "0xb5d97b2a144f58466251642952b06a75e98a3f780e38904b67ae244087c7b823"
+        "0x47386932f546bbfc135b3324e93dcb02e12edecfcfed200b59262bc141ea9833"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRO_RATA_REFUNDED:4:0x8a7c91be15528da19f327c44b3e131907ada1ce6:72\""
+      "returnValue": "\"PRO_RATA_REFUNDED:4:0x8a7c91be15528da19f327c44b3e131907ada1ce6:72\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795162375,
+      "eoaBalanceDeltaWei": "72"
     },
     {
       "stepId": "C6_REFUND_SPONSOR_B",
-      "label": "Sponsor B claims 40% pro-rata refund (48 wei including forfeited attacker bond share)",
+      "label": "Sponsor B claims 40% pro-rata refund via EthSend (real EOA balance +48 wei verified)",
       "actor": "sponsorB",
       "method": "claim_pro_rata_refund",
-      "txHash": "0xee8aafe408907d21dca054a62cefb194324484d1bc6277b8749b1ad9d6bb4016",
+      "txHash": "0xbb7a2e214f9133d85e87e2a7ed38c449d2250f9888e45d02f5f1438d5375186c",
       "childTxHashes": [
-        "0xb00b93c9cc2e2c7d19aad195dfd4d91f8f9fd48112a8ed96bb5b1840e658ffd9"
+        "0x9e34f29d55eb7883284f129e622ede7de3852738e03839423d50f00019fe84c1"
       ],
       "status": "FINALIZED",
       "executionResult": "SUCCESS",
-      "returnValue": "\"PRO_RATA_REFUNDED:4:0xc1f33fd454d94def4f3263668b86a004ce128a5b:48\""
+      "returnValue": "\"PRO_RATA_REFUNDED:4:0xc1f33fd454d94def4f3263668b86a004ce128a5b:48\"",
+      "statusTransitions": [
+        "FINALIZED"
+      ],
+      "appealed": false,
+      "appealWindowTimestamp": 1795162432,
+      "eoaBalanceDeltaWei": "48"
     }
   ]
 }

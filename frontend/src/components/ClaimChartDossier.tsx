@@ -181,6 +181,24 @@ export const ClaimChartDossier: React.FC<ClaimChartDossierProps> = ({
               and their anti-spam bonds enriched this pool.
             </p>
           )}
+
+          {/* Wallet-free GenLayer Native Appeal Window & Finality Lifecycle */}
+          <div className="pt-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-compact text-ink-muted mb-1.5">
+              <span>GenLayer native appeal window</span>
+              <span className="text-pass-ink font-medium tabular">
+                Finalized · 0 appeals filed
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-1.5" aria-label="GenLayer finality lifecycle">
+              {['Submitted', 'Pending', 'Accepted', 'Finalized'].map((stage) => (
+                <div key={stage}>
+                  <div className="h-1.5 rounded-full bg-pass-ink" />
+                  <p className="text-compact text-ink-muted mt-1">{stage}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -319,6 +337,10 @@ export const ClaimChartDossier: React.FC<ClaimChartDossierProps> = ({
                                 {sourceLabel(el.source_type, el.cdx_verified)}
                               </p>
                             </div>
+                          ) : sub.status === 'SUPERSEDED_REFUNDED' ? (
+                            <p className="text-compact text-ink-muted">
+                              Superseded before mapping — honest losing racer reclaimed bond
+                            </p>
                           ) : (
                             <p className="text-compact text-ink-muted">Not yet mapped on-chain</p>
                           )}

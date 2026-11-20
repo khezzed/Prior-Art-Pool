@@ -19,6 +19,8 @@ const HUMAN_LABELS: Record<string, string> = {
   INSUFFICIENT_EVIDENCE: 'Insufficient evidence',
   UNMAPPED: 'Unmapped',
   REJECTED_VAGUE: 'Rejected (vague)',
+  SUPERSEDED: 'Superseded',
+  SUPERSEDED_REFUNDED: 'Bond reclaimed (losing racer)',
   DISQUALIFIED_NOT_DISCLOSED: 'Disqualified (missing element)',
   DISQUALIFIED_POST_DATED: 'Disqualified (post-dated)',
   NOT_DISCLOSED: 'Not disclosed',

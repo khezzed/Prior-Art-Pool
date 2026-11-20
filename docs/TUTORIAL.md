@@ -47,7 +47,7 @@ class EvidenceProbe(gl.Contract):
 ```
 
 Running `npm run probe:studionet` confirmed `HTTP 200` and `MAJORITY_AGREE` across four distinct immutable public archives:
-- **IETF RFC Editor:** `https://www.rfc-editor.org/rfc/rfc2104.txt` and `rfc6962.txt`
+- **IETF RFC Editor:** `https://www.rfc-editor.org/rfc/rfc2104.txt`, `rfc6962.txt`, and `rfc9162.txt`
 - **Wikipedia Permanent Revision API:** `https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=timestamp|content&format=json&revids=333954216`
 - **Archive.org raw `id_` capture + CDX index:** `https://web.archive.org/web/20040326113623id_/http://www.hashcash.org/faq/`
 - **Pinned 40-hex GitHub commits:** `https://raw.githubusercontent.com/<owner>/<repo>/<40-hex>/...`
@@ -79,13 +79,28 @@ gl.get_contract_at(Address(self.judge_address)).emit(on="finalized").judge_eleme
 )
 ```
 
-And pull-payment withdrawals settle only after finality:
+And for pull-payment payouts to externally owned accounts (EOAs), avoid `gl.get_contract_at(eoa).emit_transfer(...)`—which dispatches a Type-2 GenVM contract call and fails with `contract_not_found_handler` when the recipient is not a contract. Instead, declare a minimal `@gl.evm.contract_interface` so `emit_transfer` routes through `EthSend` and credits the EOA's native StudioNet balance directly:
 
 ```python
-gl.get_contract_at(Address(sender)).emit_transfer(value=u256(amount), on="finalized")
+@gl.evm.contract_interface
+class EoaTransfer:
+    class View:
+        pass
+    class Write:
+        pass
+
+EoaTransfer(Address(sender)).emit_transfer(value=u256(amount))
 ```
 
+In addition, lock cross-contract wiring permanently once initialized (`if self.judge_address: raise gl.vm.UserError("JUDGE_ALREADY_LOCKED")`) and restrict callbacks strictly to `self.judge_address` (never `self.owner`) so no deployer can forge validator outcomes.
+
 Because `on="finalized"` fires only after GenLayer's native appeal window closes, an appealed or overturned leader proposal can never trigger a premature payout.
+
+---
+
+## Live Dossier Interface
+
+![PriorArtPool daylight archival Patent Dossier showing live StudioNet RPC verification, Conservation summary, and RFC 2104 Claim Chart](images/prior_art_pool_dossier.png)
 
 ---
 
@@ -123,15 +138,16 @@ Never ask an LLM to judge dates or parse a 50KB HTML page raw. In `PriorArtJudge
 
 ---
 
-## Step 5: Deterministic Fallbacks & Pro-Rata Refunds
+## Step 5: Deterministic Fallbacks, Per-Element Retries & Pro-Rata Refunds
 
 Every waiting state has an exit:
 - If RuleGate vetting stalls past `vetting_deadline`, `reclaim_stalled_vetting()` refunds the sponsor.
+- If a single `map_claim_element` judgment stalls past `element_timeout_seconds`, `map_claim_element()` deterministically permits retry without waiting for challenge expiry.
 - If a challenge passes `expires_at + grace_period_seconds` without a complete finalized anticipation chart, anyone can call `expire_challenge()`. Plain code marks stuck `PENDING` elements as `INSUFFICIENT_EVIDENCE`, distributes the pool (plus any forfeited spam/attacker bonds) pro-rata to every crowdfunder with zero rounding dust, and unlocks `claim_pro_rata_refund()`.
 
 ---
 
-## Step 6: Local Tests, Live Finality, and Proof Verification
+## Step 6: Local Tests, Live Finality, and On-Chain Source Verification
 
 Run the fast local checks before touching StudioNet:
 
@@ -142,10 +158,10 @@ genvm-lint check contracts/prior_art_judge.py --json
 genvm-lint typecheck contracts/prior_art_pool.py
 genvm-lint typecheck contracts/prior_art_judge.py
 
-# 2. Direct-mode unit & Byzantine consensus tests (11 tests)
+# 2. Local unit & Byzantine consensus tests (12 tests)
 pytest tests/direct -v
 
-# 3. Verify all live StudioNet transactions, contract states, and source hashes
+# 3. Verify live on-chain source (gen_getContractCode == local repo), balances, and finalized txs
 npm run verify:proof
 ```
 
