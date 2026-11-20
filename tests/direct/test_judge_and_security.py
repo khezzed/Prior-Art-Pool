@@ -72,10 +72,19 @@ def deploy_judge(genvm):
 
 
 def test_url_classifier_and_date_parsers(genvm):
-    from contracts.prior_art_judge import _classify_url, _extract_rfc_date, _extract_wiki_payload, _strip_html
+    from contracts.prior_art_judge import (
+        _classify_url,
+        _extract_rfc_date,
+        _extract_wiki_payload,
+        _strip_html,
+        _truncate_clean,
+    )
 
     assert _classify_url(RFC_2104_URL)[0] == "rfc"
     assert _classify_url(WIKI_URL)[0] == "wikipedia"
+    # Order-independent MediaWiki query parameters also accepted!
+    reordered_wiki = "https://en.wikipedia.org/w/api.php?format=json&revids=31406215&action=query&prop=revisions&rvprop=content|timestamp"
+    assert _classify_url(reordered_wiki) == ("wikipedia", "31406215", "")
     assert _classify_url(ARCHIVE_URL)[0] == "archive"
     assert _classify_url(GITHUB_INJ_URL)[0] == "github"
 
@@ -85,6 +94,7 @@ def test_url_classifier_and_date_parsers(genvm):
     assert _classify_url("https://evil-participant.example.com/fake-prior-art.txt")[0] == "invalid"
 
     assert _extract_rfc_date(SAMPLE_RFC_2104.decode()) == "1997-02-28"
+    assert _extract_rfc_date("Request for Comments: 2800\nFebruary 2000\n") == "2000-02-29"
     assert _extract_rfc_date(SAMPLE_RFC_6962.decode()) == "2013-06-30"
 
     pub_date, content = _extract_wiki_payload(SAMPLE_WIKI.decode())
@@ -92,6 +102,17 @@ def test_url_classifier_and_date_parsers(genvm):
     assert "Merkle trees" in content
 
     assert "partial hash-collisions" in _strip_html(SAMPLE_ARCHIVE_HTML.decode())
+    # Word-safe truncation never chops mid-word
+    trunc = _truncate_clean("Both elements specify concrete mechanisms and SHA1 partial hash-collision anti-spam tokens.", 60)
+    assert trunc.endswith("...") and not trunc.endswith(" an...")
+
+    # Owner cannot invoke PriorArtJudge directly or swap locked pool_address
+    judge = deploy_judge(genvm)
+    genvm.set_context(OWNER, value=0)
+    with pytest.raises(Exception, match="POOL_ALREADY_LOCKED"):
+        judge.set_pool("0x7777777777777777777777777777777777777777")
+    with pytest.raises(Exception, match="UNAUTHORIZED_CALLER"):
+        judge.vet_claim_elements(1, "US-X", "2020-01-01", "[]", "abc")
 
 
 def test_deterministic_post_dated_short_circuit_without_llm(genvm):

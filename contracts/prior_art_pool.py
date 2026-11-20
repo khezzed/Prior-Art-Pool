@@ -6,6 +6,15 @@ import re
 from datetime import datetime, timezone
 
 
+@gl.evm.contract_interface
+class EoaTransfer:
+    class View:
+        pass
+
+    class Write:
+        pass
+
+
 def _is_valid_iso_date(date_str: str) -> bool:
     if not isinstance(date_str, str):
         return False
@@ -18,6 +27,28 @@ def _is_valid_iso_date(date_str: str) -> bool:
     return True
 
 
+def _is_valid_wiki_api_url(u: str) -> bool:
+    prefix = "https://en.wikipedia.org/w/api.php?"
+    if not u.startswith(prefix):
+        return False
+    qs = u[len(prefix) :]
+    if not qs or "#" in qs or " " in qs:
+        return False
+    params = {}
+    for pair in qs.split("&"):
+        if "=" not in pair:
+            return False
+        k, v = pair.split("=", 1)
+        params[k] = v
+    if params.get("action") != "query" or params.get("prop") != "revisions" or params.get("format") != "json":
+        return False
+    revids = params.get("revids", "")
+    if not re.match(r"^\d+$", revids):
+        return False
+    rvprop_parts = set(params.get("rvprop", "").replace("%7C", "|").replace("%7c", "|").split("|"))
+    return "timestamp" in rvprop_parts and "content" in rvprop_parts
+
+
 def _is_valid_immutable_url(url: str) -> bool:
     if not url or not isinstance(url, str):
         return False
@@ -27,11 +58,8 @@ def _is_valid_immutable_url(url: str) -> bool:
     # 1. Official IETF RFC plain-text archive
     if re.match(r"^https://www\.rfc-editor\.org/rfc/rfc\d{1,5}\.txt$", u):
         return True
-    # 2. Wikipedia permanent revision API (returns server-assigned immutable timestamp + wikitext)
-    if re.match(
-        r"^https://en\.wikipedia\.org/w/api\.php\?action=query&prop=revisions&rvprop=timestamp\|content&format=json&revids=\d+$",
-        u,
-    ):
+    # 2. Wikipedia permanent revision API (order-independent query params)
+    if _is_valid_wiki_api_url(u):
         return True
     # 3. Archive.org raw id_ capture (no mutable toolbar; CDX-verified in PriorArtJudge)
     if re.match(r"^https://web\.archive\.org/web/\d{14}id_/https?://.+$", u):
@@ -51,18 +79,20 @@ def _utc_date_from_ts(ts: int) -> str:
 
 class PriorArtPool(gl.Contract):
     """
-    PriorArtPool: Deterministic crowdfunded defensive patent prior-art vault & claim-chart engine.
-    - 100% deterministic: performs zero LLM or web calls itself.
-    - Dispatches narrow judgments to PriorArtJudge and settles funds strictly inside
-      emit(on='finalized') callbacks after GenLayer's native appeal window.
-    - Never strands native deposits on payable input validation errors (credits refundable_balances).
-    - Enforces the All-Elements Rule (35 U.S.C. § 102) and exact financial conservation:
+    PriorArtPool (v2 Hardened): Deterministic crowdfunded defensive patent prior-art vault & claim-chart engine.
+    - 100% deterministic: zero LLM or web calls; zero owner verdict backdoor.
+    - One-time immutable wiring via set_judge(); callbacks strictly accept only self.judge_address.
+    - Dispatches narrow judgments via emit(on='finalized') after GenLayer's native appeal window.
+    - Delivers real native wei to EOAs via @gl.evm.contract_interface EoaTransfer (EthSend).
+    - Never strands native deposits on payable validation errors (credits refundable_balances).
+    - Enforces All-Elements Rule (35 U.S.C. § 102), per-element pending retry timeouts, and exact conservation:
       total_pool_locked + total_bonds_held + total_claimable + total_refundable == total_inbound - total_outbound
     """
 
     owner: str
     judge_address: str
     vetting_timeout_seconds: u256
+    element_timeout_seconds: u256
 
     challenge_count: u256
     submission_count: u256
@@ -82,11 +112,17 @@ class PriorArtPool(gl.Contract):
     total_inbound: u256
     total_outbound: u256
 
-    def __init__(self, judge_address: str = "", vetting_timeout_seconds: int = 900):
+    def __init__(
+        self,
+        judge_address: str = "",
+        vetting_timeout_seconds: int = 900,
+        element_timeout_seconds: int = 600,
+    ):
         super().__init__()
         self.owner = str(gl.message.sender_address).lower()
         self.judge_address = judge_address.strip() if judge_address else ""
         self.vetting_timeout_seconds = u256(max(60, int(vetting_timeout_seconds)))
+        self.element_timeout_seconds = u256(max(60, int(element_timeout_seconds)))
         self.challenge_count = u256(0)
         self.submission_count = u256(0)
         self.total_pool_locked = u256(0)
@@ -125,15 +161,21 @@ class PriorArtPool(gl.Contract):
         self.claimable_balances[key] = u256(prev + amount)
         self.total_claimable = u256(int(self.total_claimable) + amount)
 
+    def _send_native_eoa(self, recipient: str, amount: int) -> None:
+        EoaTransfer(Address(recipient)).emit_transfer(value=u256(amount))
+
     @gl.public.write
     def set_judge(self, judge_address: str) -> str:
+        """One-time immutable wiring to PriorArtJudge. Cannot be overwritten once locked."""
         caller = str(gl.message.sender_address).lower()
         if caller != self.owner:
             raise gl.vm.UserError("UNAUTHORIZED_OWNER")
+        if self.judge_address:
+            raise gl.vm.UserError("JUDGE_ALREADY_LOCKED")
         if not judge_address or not judge_address.startswith("0x") or len(judge_address) != 42:
             raise gl.vm.UserError("INVALID_JUDGE_ADDRESS")
         self.judge_address = judge_address
-        return f"JUDGE_SET:{judge_address}"
+        return f"JUDGE_LOCKED:{judge_address}"
 
     @gl.public.write.payable
     def open_challenge(
@@ -149,7 +191,6 @@ class PriorArtPool(gl.Contract):
         Opens a new crowdfunded prior-art anticipation challenge.
         Payable safety: any validation failure credits msg.value to refundable_balances
         instead of stranding wei on StudioNet.
-        Dispatches up-front RuleGate check to PriorArtJudge via emit(on='finalized').
         """
         sender = str(gl.message.sender_address).lower()
         value = int(gl.message.value)
@@ -244,10 +285,11 @@ class PriorArtPool(gl.Contract):
     @gl.public.write
     def on_challenge_vetted(self, challenge_id: int, result_json: str) -> str:
         """
-        Finality callback invoked by PriorArtJudge after RuleGate reaches consensus finality.
+        Finality callback strictly restricted to the locked PriorArtJudge contract.
+        No owner override is permitted.
         """
         caller = str(gl.message.sender_address).lower()
-        if caller not in {self.judge_address.lower(), self.owner}:
+        if not self.judge_address or caller != self.judge_address.lower():
             raise gl.vm.UserError("UNAUTHORIZED_CALLBACK")
         cid_key = u256(challenge_id)
         if cid_key not in self.challenges:
@@ -274,7 +316,6 @@ class PriorArtPool(gl.Contract):
             self.challenges[cid_key] = json.dumps(challenge)
             return f"CHALLENGE_OPENED:{challenge_id}"
 
-        # Rejected vague/unobservable claim: refund initial sponsor deposit cleanly
         refund_amt = int(challenge["pool_wei"])
         challenge["status"] = "REJECTED_VAGUE"
         challenge["pool_wei"] = 0
@@ -286,9 +327,7 @@ class PriorArtPool(gl.Contract):
 
     @gl.public.write
     def reclaim_stalled_vetting(self, challenge_id: int) -> str:
-        """
-        Deterministic fallback if RuleGate vetting never finalizes before vetting_deadline.
-        """
+        """Deterministic fallback if RuleGate vetting never finalizes before vetting_deadline."""
         cid_key = u256(challenge_id)
         if cid_key not in self.challenges:
             raise gl.vm.UserError("CHALLENGE_NOT_FOUND")
@@ -309,10 +348,7 @@ class PriorArtPool(gl.Contract):
 
     @gl.public.write.payable
     def contribute_bounty(self, challenge_id: int) -> str:
-        """
-        Allows additional open-source ecosystem sponsors to crowdfund an OPEN challenge.
-        Payable safety: invalid contributions credit refundable_balances instead of stranding wei.
-        """
+        """Allows additional open-source sponsors to crowdfund an OPEN challenge."""
         sender = str(gl.message.sender_address).lower()
         value = int(gl.message.value)
         self.total_inbound = u256(int(self.total_inbound) + value)
@@ -345,7 +381,6 @@ class PriorArtPool(gl.Contract):
         """
         Registers a candidate immutable prior-art publication with an anti-spam researcher bond.
         Multiple researchers may submit competing prior art concurrently.
-        Payable safety: invalid URL/bond/duplicate credits refundable_balances instead of stranding wei.
         """
         sender = str(gl.message.sender_address).lower()
         value = int(gl.message.value)
@@ -392,6 +427,7 @@ class PriorArtPool(gl.Contract):
                     "index": idx,
                     "status": "UNMAPPED",
                     "anchor_text": "",
+                    "pending_deadline": 0,
                     "verdict": "",
                     "pub_date_iso": "",
                     "source_type": "",
@@ -429,6 +465,7 @@ class PriorArtPool(gl.Contract):
         """
         Triggers ONE narrow validator judgment mapping ONE claim element against ONE bounded
         slice of the submitted immutable prior-art document via emit(on='finalized').
+        Includes per-element pending_deadline retry fallback so stalled consensus never deadlocks.
         """
         caller = str(gl.message.sender_address).lower()
         sid_key = u256(submission_id)
@@ -444,7 +481,8 @@ class PriorArtPool(gl.Contract):
         challenge = json.loads(self.challenges[cid_key])
         if challenge["status"] != "OPEN":
             raise gl.vm.UserError(f"CHALLENGE_NOT_OPEN:{challenge['status']}")
-        if self._now() >= int(challenge["grace_deadline"]):
+        now = self._now()
+        if now >= int(challenge["grace_deadline"]):
             raise gl.vm.UserError("GRACE_PERIOD_ELAPSED")
 
         elements = sub["elements"]
@@ -452,12 +490,14 @@ class PriorArtPool(gl.Contract):
             raise gl.vm.UserError("ELEMENT_INDEX_OUT_OF_RANGE")
 
         rec = elements[element_index]
-        if rec["status"] not in ("UNMAPPED", "INSUFFICIENT_EVIDENCE"):
+        can_retry_stalled = rec["status"] == "PENDING" and now >= int(rec.get("pending_deadline", 0))
+        if rec["status"] not in ("UNMAPPED", "INSUFFICIENT_EVIDENCE") and not can_retry_stalled:
             raise gl.vm.UserError(f"ELEMENT_ALREADY_{rec['status']}")
 
         clean_anchor = (anchor_text or "").strip()[:120]
         rec["status"] = "PENDING"
         rec["anchor_text"] = clean_anchor
+        rec["pending_deadline"] = now + int(self.element_timeout_seconds)
         self.submissions[sid_key] = json.dumps(sub)
 
         gl.get_contract_at(Address(self.judge_address)).emit(on="finalized").judge_element_disclosure(
@@ -475,12 +515,12 @@ class PriorArtPool(gl.Contract):
     @gl.public.write
     def on_element_judged(self, submission_id: int, element_index: int, result_json: str) -> str:
         """
-        Finality callback from PriorArtJudge for a single claim-element judgment.
+        Finality callback strictly restricted to the locked PriorArtJudge contract.
         Enforces the All-Elements Rule (35 U.S.C. § 102) and settles the first complete
         anticipation chart to reach consensus finality.
         """
         caller = str(gl.message.sender_address).lower()
-        if caller not in {self.judge_address.lower(), self.owner}:
+        if not self.judge_address or caller != self.judge_address.lower():
             raise gl.vm.UserError("UNAUTHORIZED_CALLBACK")
         sid_key = u256(submission_id)
         if sid_key not in self.submissions:
@@ -506,9 +546,9 @@ class PriorArtPool(gl.Contract):
         rec["cdx_verified"] = bool(res.get("cdx_verified", False))
         rec["slice_digest"] = str(res.get("slice_digest", ""))
         rec["verbatim_quote"] = str(res.get("verbatim_quote", ""))
-        rec["reason"] = str(res.get("reason", ""))[:200]
+        rec["reason"] = str(res.get("reason", ""))[:240]
 
-        # If challenge already settled (e.g., rival won race or expired), release honest bond safely
+        # If another researcher won or challenge expired while tx was in flight, release honest bond
         if challenge["status"] != "OPEN":
             rec["status"] = verdict
             if sub["status"] == "ACTIVE":
@@ -529,7 +569,6 @@ class PriorArtPool(gl.Contract):
             rec["status"] = "DISCLOSED"
             all_disclosed = all(e["status"] == "DISCLOSED" for e in sub["elements"])
             if all_disclosed:
-                # ALL-ELEMENTS RULE SATISFIED -> FIRST TO FINALITY WINS THE CROWDFUNDED POOL!
                 pool_amt = int(challenge["pool_wei"])
                 bond_amt = int(sub["bond_wei"])
                 total_payout = pool_amt + bond_amt
@@ -555,8 +594,6 @@ class PriorArtPool(gl.Contract):
             return f"ELEMENT_DISCLOSED:{submission_id}:E{element_index}:{disclosed_count}_OF_{len(sub['elements'])}"
 
         if verdict in ("NOT_DISCLOSED", "POST_DATED", "INVALID_EVIDENCE"):
-            # Under § 102 All-Elements Rule, failure on any single element or chronology disqualifies
-            # this reference and forfeits its anti-spam bond to enrich the defensive pool.
             rec["status"] = verdict
             sub["status"] = f"DISQUALIFIED_{verdict}"
             sub["disqualified_reason"] = rec["reason"]
@@ -573,7 +610,6 @@ class PriorArtPool(gl.Contract):
             self.submissions[sid_key] = json.dumps(sub)
             return f"SUBMISSION_DISQUALIFIED:{submission_id}:{verdict}:BOND_FORFEITED_{bond_amt}"
 
-        # Non-fatal INSUFFICIENT_EVIDENCE allows retry before deadline or safe timeout refund
         rec["status"] = "INSUFFICIENT_EVIDENCE"
         self.submissions[sid_key] = json.dumps(sub)
         return f"ELEMENT_INSUFFICIENT_EVIDENCE:{submission_id}:E{element_index}"
@@ -582,7 +618,7 @@ class PriorArtPool(gl.Contract):
     def reclaim_superseded_bond(self, submission_id: int) -> str:
         """
         Allows an honest competing researcher whose submission was neither won nor disqualified
-        to reclaim their held bond once the challenge has settled (ANTICIPATED or EXPIRED).
+        to reclaim their held bond once the challenge settles (ANTICIPATED or EXPIRED).
         """
         sid_key = u256(submission_id)
         if sid_key not in self.submissions:
@@ -608,8 +644,8 @@ class PriorArtPool(gl.Contract):
     def expire_challenge(self, challenge_id: int) -> str:
         """
         Deterministic fallback after expires_at + grace_period_seconds.
-        Marks any unjudged/pending elements as INSUFFICIENT_EVIDENCE, closes the challenge
-        as EXPIRED, and computes exact zero-dust pro-rata entitlements for all crowdfunders.
+        Marks unjudged PENDING elements as INSUFFICIENT_EVIDENCE and computes zero-dust
+        pro-rata entitlements for all crowdfunders.
         """
         cid_key = u256(challenge_id)
         if cid_key not in self.challenges:
@@ -620,7 +656,6 @@ class PriorArtPool(gl.Contract):
         if self._now() < int(challenge["grace_deadline"]):
             raise gl.vm.UserError("GRACE_DEADLINE_NOT_REACHED")
 
-        # Mark any stuck PENDING elements on active submissions as INSUFFICIENT_EVIDENCE
         sub_ids = json.loads(self.challenge_submissions[cid_key])
         for sid in sub_ids:
             s_key = u256(int(sid))
@@ -640,14 +675,12 @@ class PriorArtPool(gl.Contract):
 
         pro_rata_owed = {}
         allocated = 0
-        sorted_sponsors = sorted(contribs.keys())
-        for sp in sorted_sponsors:
+        for sp in sorted(contribs.keys()):
             c_amt = int(contribs[sp])
             share = (distributable * c_amt) // total_contrib if total_contrib > 0 else 0
             pro_rata_owed[sp] = share
             allocated += share
 
-        # Zero-dust invariant: deterministic remainder goes to challenge creator
         remainder = distributable - allocated
         if remainder > 0:
             creator = challenge["creator"]
@@ -661,10 +694,7 @@ class PriorArtPool(gl.Contract):
 
     @gl.public.write
     def claim_pro_rata_refund(self, challenge_id: int) -> str:
-        """
-        Pull-payment pro-rata refund for crowdfunders of an EXPIRED challenge.
-        Transfers native value strictly via emit_transfer(on='finalized').
-        """
+        """Pull-payment pro-rata refund delivering native wei directly to EOA via EthSend."""
         sender = str(gl.message.sender_address).lower()
         cid_key = u256(challenge_id)
         if cid_key not in self.challenges:
@@ -684,14 +714,12 @@ class PriorArtPool(gl.Contract):
         self.total_pool_locked = u256(int(self.total_pool_locked) - owed)
         self.total_outbound = u256(int(self.total_outbound) + owed)
 
-        gl.get_contract_at(Address(sender)).emit_transfer(value=u256(owed), on="finalized")
+        self._send_native_eoa(sender, owed)
         return f"PRO_RATA_REFUNDED:{challenge_id}:{sender}:{owed}"
 
     @gl.public.write
     def claim_payout(self) -> str:
-        """
-        Pull-payment withdrawal for winning researchers (crowdfunded bounty + returned bond).
-        """
+        """Pull-payment withdrawal delivering winning bounty + bond wei directly to EOA via EthSend."""
         sender = str(gl.message.sender_address).lower()
         amount = int(self.claimable_balances[sender]) if sender in self.claimable_balances else 0
         if amount <= 0:
@@ -701,15 +729,12 @@ class PriorArtPool(gl.Contract):
         self.total_claimable = u256(int(self.total_claimable) - amount)
         self.total_outbound = u256(int(self.total_outbound) + amount)
 
-        gl.get_contract_at(Address(sender)).emit_transfer(value=u256(amount), on="finalized")
+        self._send_native_eoa(sender, amount)
         return f"PAYOUT_CLAIMED:{sender}:{amount}"
 
     @gl.public.write
     def withdraw_refund(self) -> str:
-        """
-        Pull-payment withdrawal for refunded deposits (rejected RuleGate, invalid payable calls,
-        superseded honest researcher bonds).
-        """
+        """Pull-payment withdrawal delivering refundable deposit wei directly to EOA via EthSend."""
         sender = str(gl.message.sender_address).lower()
         amount = int(self.refundable_balances[sender]) if sender in self.refundable_balances else 0
         if amount <= 0:
@@ -719,7 +744,7 @@ class PriorArtPool(gl.Contract):
         self.total_refundable = u256(int(self.total_refundable) - amount)
         self.total_outbound = u256(int(self.total_outbound) + amount)
 
-        gl.get_contract_at(Address(sender)).emit_transfer(value=u256(amount), on="finalized")
+        self._send_native_eoa(sender, amount)
         return f"REFUND_WITHDRAWN:{sender}:{amount}"
 
     # -------------------------------------------------------------------------
@@ -733,6 +758,7 @@ class PriorArtPool(gl.Contract):
                 "owner": self.owner,
                 "judge_address": self.judge_address,
                 "vetting_timeout_seconds": int(self.vetting_timeout_seconds),
+                "element_timeout_seconds": int(self.element_timeout_seconds),
                 "challenge_count": int(self.challenge_count),
                 "submission_count": int(self.submission_count),
             }

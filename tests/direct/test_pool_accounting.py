@@ -53,11 +53,16 @@ def test_rulegate_rejection_and_safe_refund(genvm):
     assert cb == "CHALLENGE_REJECTED_VAGUE:1:REFUNDED_100"
     assert_conserved(pool)
 
-    # Sponsor withdraws full refund via finalized transfer
+    # Sponsor withdraws full refund via EthSend native EOA transfer
     genvm.set_context(SPONSOR_A, value=0)
     wd = pool.withdraw_refund()
     assert wd == f"REFUND_WITHDRAWN:{SPONSOR_A}:100"
-    assert genvm.emitted_transfers[-1] == {"recipient": SPONSOR_A, "value": 100, "on": "finalized"}
+    assert genvm.emitted_transfers[-1] == {
+        "recipient": SPONSOR_A,
+        "value": 100,
+        "on": "finalized",
+        "kind": "EthSend",
+    }
     acc = assert_conserved(pool)
     assert acc["total_inbound"] == 100 and acc["total_outbound"] == 100 and acc["net_liabilities"] == 0
 
@@ -223,12 +228,18 @@ def test_stalled_vetting_timeout_and_unauthorized_callback_guards(genvm):
     genvm.set_context(SPONSOR_A, value=75)
     pool.open_challenge("US-STALLED", "2010-01-01", VALID_ELEMENTS, 600, 60, 10)
 
-    # Random attacker cannot spoof judge callback
+    # Random attacker AND contract owner CANNOT spoof judge callback (zero owner backdoor!)
     genvm.set_context(RESEARCHER_1, value=0)
     with pytest.raises(Exception, match="UNAUTHORIZED_CALLBACK"):
         pool.on_challenge_vetted(1, json.dumps({"verdict": "ACCEPTED"}))
+    genvm.set_context(OWNER, value=0)
+    with pytest.raises(Exception, match="UNAUTHORIZED_CALLBACK"):
+        pool.on_challenge_vetted(1, json.dumps({"verdict": "ACCEPTED"}))
+    with pytest.raises(Exception, match="JUDGE_ALREADY_LOCKED"):
+        pool.set_judge(RESEARCHER_2)
 
     # Cannot reclaim vetting before timeout
+    genvm.set_context(RESEARCHER_1, value=0)
     with pytest.raises(Exception, match="VETTING_DEADLINE_NOT_REACHED"):
         pool.reclaim_stalled_vetting(1)
 
@@ -237,6 +248,31 @@ def test_stalled_vetting_timeout_and_unauthorized_callback_guards(genvm):
     assert pool.reclaim_stalled_vetting(1) == "VETTING_EXPIRED:1:REFUNDED_75"
     genvm.set_context(SPONSOR_A, value=0)
     assert pool.withdraw_refund() == f"REFUND_WITHDRAWN:{SPONSOR_A}:75"
+    assert_conserved(pool)
+
+
+def test_per_element_stalled_pending_retry_fallback(genvm):
+    from contracts.prior_art_pool import PriorArtPool
+
+    genvm.set_context(OWNER, value=0)
+    pool = PriorArtPool(judge_address=JUDGE_ADDR, vetting_timeout_seconds=300, element_timeout_seconds=120)
+    genvm.set_context(SPONSOR_A, value=50)
+    pool.open_challenge("US-RETRY-TEST", "2015-11-22", VALID_ELEMENTS, 1800, 60, 20)
+    genvm.set_context(JUDGE_ADDR, value=0)
+    pool.on_challenge_vetted(1, json.dumps({"verdict": "ACCEPTED"}))
+
+    genvm.set_context(RESEARCHER_1, value=20)
+    pool.submit_prior_art(1, "IETF RFC 2104", RFC_2104)
+
+    # Map E0 -> stuck in PENDING
+    genvm.set_context(RESEARCHER_1, value=0)
+    pool.map_claim_element(1, 0, "ipad")
+    with pytest.raises(Exception, match="ELEMENT_ALREADY_PENDING"):
+        pool.map_claim_element(1, 0, "ipad")
+
+    # After element_timeout_seconds (120s), deterministic retry succeeds without waiting for challenge expiry!
+    genvm.advance_time(125)
+    assert pool.map_claim_element(1, 0, "ipad = the byte 0x36") == "ELEMENT_MAPPING_DISPATCHED:1:E0"
     assert_conserved(pool)
 
 

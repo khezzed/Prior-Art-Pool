@@ -173,11 +173,26 @@ def _install_mock_genlayer(vm: MockGenVM):
                     if origin is TreeMap or typ is TreeMap:
                         setattr(self, name, TreeMap())
 
+    class _EVM:
+        @staticmethod
+        def contract_interface(cls):
+            def _factory(addr: Address):
+                class _EvmProxy:
+                    def emit_transfer(self, *, value: u256):
+                        vm.emitted_transfers.append(
+                            {"recipient": str(addr).lower(), "value": int(value), "on": "finalized", "kind": "EthSend"}
+                        )
+
+                return _EvmProxy()
+
+            return _factory
+
     class _GL:
         Contract = _Contract
         public = _Public()
         nondet = _NonDet()
         vm = _VM()
+        evm = _EVM()
         message = _Message()
 
         @property

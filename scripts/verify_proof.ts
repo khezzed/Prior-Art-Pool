@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient, chains } from 'genlayer-js';
-import { sha256, STUDIONET_RPC, getBalanceWei } from './studionet_lib.ts';
+import { sha256, STUDIONET_RPC, getBalanceWei, getOnChainContractSource } from './studionet_lib.ts';
 
 async function main() {
   console.log('===============================================================');
-  console.log('   PriorArtPool Read-Only StudioNet Proof Verifier');
+  console.log('   PriorArtPool v2 Read-Only StudioNet Proof Verifier');
   console.log('===============================================================');
 
   const proofPath = path.resolve('deploy/proof.json');
@@ -23,13 +23,17 @@ async function main() {
 
   let failures = 0;
 
-  // 1. Verify local contract source files match SHA-256 recorded in proof.json
-  console.log('\n[1/4] Verifying contract source SHA-256 digests...');
+  // 1. Verify LIVE ON-CHAIN contract source (gen_getContractCode) == local repo file == proof.json!
+  console.log('\n[1/4] Verifying live ON-CHAIN contract source (gen_getContractCode) matches local repo byte-for-byte...');
   for (const [name, meta] of Object.entries<any>(proof.contracts)) {
     const localCode = fs.readFileSync(path.resolve(meta.sourcePath), 'utf-8');
     const localSha = sha256(localCode);
-    const match = localSha === meta.sourceSha256;
-    console.log(`  ${match ? '✓' : '✗'} ${name} (${meta.address}): sha256=${localSha.slice(0, 16)}... match=${match}`);
+    const onChainCode = await getOnChainContractSource(meta.address);
+    const onChainSha = sha256(onChainCode);
+    const match = localSha === meta.sourceSha256 && onChainSha === localSha;
+    console.log(
+      `  ${match ? '✓' : '✗'} ${name} (${meta.address}): local==onChain==manifest (${onChainSha.slice(0, 16)}...) match=${match}`
+    );
     if (!match) failures++;
   }
 
@@ -63,7 +67,7 @@ async function main() {
   );
   if (!invOk) failures++;
 
-  // 3. Verify all 4 challenges & 5 submissions match recorded finalized outcomes
+  // 3. Verify all challenges & submissions match recorded finalized outcomes
   console.log('\n[3/4] Verifying live on-chain challenges & submissions match deploy/proof.json...');
   for (const ch of proof.challenges) {
     const liveRaw = await client.readContract({
@@ -93,9 +97,9 @@ async function main() {
     if (!ok) failures++;
   }
 
-  // 4. Verify all recorded deploy & demo tx hashes exist and are FINALIZED on StudioNet
-  console.log('\n[4/4] Rechecking transaction finality on StudioNet RPC...');
-  const txChecks: Array<{ label: string; hash: string }> = [
+  // 4. Verify all recorded deploy, demo, callback, and EthSend native transfer txs are FINALIZED on StudioNet
+  console.log('\n[4/4] Rechecking transaction finality & native transfer receipts on StudioNet RPC...');
+  const txChecks: Array<{ label: string; hash: string; isNativeTransferChild?: boolean }> = [
     { label: 'deploy:EvidenceProbe', hash: proof.contracts.evidenceProbe.deployTx },
     { label: 'deploy:PriorArtPool', hash: proof.contracts.priorArtPool.deployTx },
     { label: 'deploy:PriorArtJudge', hash: proof.contracts.priorArtJudge.deployTx },
@@ -103,8 +107,16 @@ async function main() {
   ];
   for (const step of proof.steps) {
     txChecks.push({ label: step.stepId, hash: step.txHash });
+    const isTransferMethod =
+      step.method === 'withdraw_refund' ||
+      step.method === 'claim_payout' ||
+      step.method === 'claim_pro_rata_refund';
     for (let i = 0; i < (step.childTxHashes || []).length; i++) {
-      txChecks.push({ label: `${step.stepId}:cb${i + 1}`, hash: step.childTxHashes[i] });
+      txChecks.push({
+        label: `${step.stepId}:cb${i + 1}`,
+        hash: step.childTxHashes[i],
+        isNativeTransferChild: isTransferMethod,
+      });
     }
   }
 
@@ -114,22 +126,21 @@ async function main() {
     const history: string[] = tx?.consensus_history?.current_status_changes || [];
     const statusName = tx?.statusName || tx?.status_name || (history.includes('FINALIZED') ? 'FINALIZED' : 'UNKNOWN');
     const lr = tx?.consensus_data?.leader_receipt?.[0];
-    const exec = lr?.execution_result || 'UNKNOWN';
-    const isEoaTransferQuirk =
-      item.label.includes(':cb') &&
-      (lr?.node_config?.address === 'contract_not_found_handler' ||
-        tx?.last_leader === 'contract_not_found_handler');
-    const ok = statusName === 'FINALIZED' && (exec === 'SUCCESS' || isEoaTransferQuirk);
+    const isNativeType0 = item.isNativeTransferChild && !lr && Number(tx?.value || 0) > 0;
+    const exec = isNativeType0 ? 'NATIVE_TRANSFER_OK' : lr?.execution_result || 'UNKNOWN';
+    const ok = statusName === 'FINALIZED' && (exec === 'SUCCESS' || isNativeType0);
     console.log(
-      `  ${ok ? '✓' : '✗'} ${item.label.padEnd(28)} ${item.hash.slice(0, 14)}... status=${statusName} exec=${isEoaTransferQuirk ? 'EOA_TRANSFER_CHILD' : exec}`
+      `  ${ok ? '✓' : '✗'} ${item.label.padEnd(28)} ${item.hash.slice(0, 14)}... status=${statusName} exec=${exec} appealed=${Boolean(tx?.appealed)}`
     );
     if (!ok) failures++;
-    await new Promise((r) => setTimeout(r, 400));
+    await new Promise((r) => setTimeout(r, 350));
   }
 
   console.log('\n===============================================================');
   if (failures === 0) {
-    console.log(`✓ ALL PROOF CHECKS PASSED (${txChecks.length} finalized transactions verified live on StudioNet!)`);
+    console.log(
+      `✓ ALL PROOF CHECKS PASSED (on-chain source == local source + ${txChecks.length} finalized StudioNet txs + 0 errors!)`
+    );
   } else {
     console.error(`✗ PROOF VERIFICATION FAILED with ${failures} issue(s)`);
     process.exit(1);
